@@ -1,0 +1,115 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String         @id @default(cuid())
+  name          String?
+  email         String?        @unique
+  phone         String?        @unique
+  passwordHash  String?
+  role          Role           @default(PATIENT)
+  language      String         @default("en")
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  prescriptions Prescription[]
+}
+
+enum Role {
+  PATIENT
+  PHARMACIST
+  ADMIN
+}
+
+model GenericDrug {
+  id             String          @id @default(cuid())
+  genericName    String          @unique
+  category       String
+  description    String?
+  createdAt      DateTime        @default(now())
+  brandMedicines BrandMedicine[]
+}
+
+model BrandMedicine {
+  id                String             @id @default(cuid())
+  brandName         String
+  strength          String
+  form              String             @default("Tablet")
+  manufacturer      String
+  unitPrice         Float
+  packSize          Int                @default(10)
+  isAvailable       Boolean            @default(true)
+  genericId         String
+  generic           GenericDrug        @relation(fields: [genericId], references: [id])
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  prescriptionItems PrescriptionItem[]
+
+  @@index([brandName])
+  @@index([genericId])
+}
+
+model Prescription {
+  id            String             @id @default(cuid())
+  userId        String
+  user          User               @relation(fields: [userId], references: [id])
+  imageUrl      String?
+  rawOcrText    String?
+  status        PrescriptionStatus @default(PENDING)
+  hospitalName  String?
+  doctorName    String?
+  scanDate      DateTime           @default(now())
+  totalSavings  Float              @default(0)
+  items         PrescriptionItem[]
+  ocrAuditLogs  OcrAuditLog[]
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+}
+
+enum PrescriptionStatus {
+  PENDING
+  REVIEWED
+  COMPLETED
+  FLAGGED
+}
+
+model PrescriptionItem {
+  id              String        @id @default(cuid())
+  prescriptionId  String
+  prescription    Prescription  @relation(fields: [prescriptionId], references: [id], onDelete: Cascade)
+  brandMedicineId String?
+  brandMedicine   BrandMedicine? @relation(fields: [brandMedicineId], references: [id])
+  rawOcrText      String
+  matchedBrand    String?
+  matchedGeneric  String?
+  strength        String?
+  form            String?
+  dosageSchedule  String?
+  duration        String?
+  instructions    String?
+  confidence      Float         @default(0)
+  isUserVerified  Boolean       @default(false)
+  createdAt       DateTime      @default(now())
+}
+
+model OcrAuditLog {
+  id              String       @id @default(cuid())
+  prescriptionId  String
+  prescription    Prescription @relation(fields: [prescriptionId], references: [id], onDelete: Cascade)
+  rawInput        String
+  ocrOutput       String
+  confidence      Float
+  isFlagged       Boolean      @default(false)
+  flagReason      String?
+  reviewedBy      String?
+  engine          String       @default("easyocr")
+  createdAt       DateTime     @default(now())
+}

@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1100" width="800" height="1100">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&amp;family=Inter:wght@400;600;700&amp;display=swap');
+      .paper { fill: #fdfbf7; stroke: #e2dcd0; stroke-width: 2; }
+      .header-title { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 20px; fill: #0f172a; }
+      .header-sub { font-family: 'Inter', sans-serif; font-size: 13px; fill: #475569; }
+      .doctor-name { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 16px; fill: #0d9488; }
+      .rx-symbol { font-family: 'Times New Roman', serif; font-weight: bold; font-style: italic; font-size: 42px; fill: #0d9488; }
+      .handwritten { font-family: 'Caveat', cursive; font-size: 30px; fill: #1e293b; letter-spacing: 0.5px; }
+      .handwritten-sub { font-family: 'Caveat', cursive; font-size: 24px; fill: #475569; }
+      .patient-info { font-family: 'Inter', sans-serif; font-size: 13px; fill: #334155; }
+      .stamp { stroke: #0284c7; fill: none; stroke-width: 2; stroke-dasharray: 4 2; }
+      .signature { font-family: 'Caveat', cursive; font-size: 34px; fill: #0f766e; }
+      .rx-box { fill: rgba(13, 148, 136, 0.04); stroke: rgba(13, 148, 136, 0.2); stroke-dasharray: 3 3; }
+    </style>
+  </defs>
+
+  <!-- Paper background with subtle texture -->
+  <rect x="10" y="10" width="780" height="1080" rx="8" class="paper" />
+  
+  <!-- Hospital Header -->
+  <rect x="30" y="30" width="740" height="110" rx="6" fill="#f0fdfa" stroke="#ccfbf1" stroke-width="1.5" />
+  <circle cx="70" cy="85" r="28" fill="#0d9488" />
+  <text x="70" y="94" font-family="'Inter', sans-serif" font-size="28" font-weight="bold" fill="#ffffff" text-anchor="middle">✚</text>
+  
+  <text x="115" y="65" class="header-title">DHAKA MEDICAL COLLEGE &amp; HOSPITAL</text>
+  <text x="115" y="85" class="header-sub">Secretariat Road, Dhaka-1000 | Department of Internal Medicine</text>
+  <text x="115" y="105" class="doctor-name">Prof. Dr. M. A. Rahman, MBBS, FCPS, MD, FRCP</text>
+  <text x="115" y="125" class="header-sub">Reg. No: BMDC 24890 | Senior Consultant Physician</text>
+
+  <!-- Patient Info Banner -->
+  <line x1="30" y1="155" x2="770" y2="155" stroke="#cbd5e1" stroke-width="1.5" />
+  <text x="40" y="180" class="patient-info"><tspan font-weight="bold">Patient Name:</tspan> Kazi Farhan Ahmed</text>
+  <text x="360" y="180" class="patient-info"><tspan font-weight="bold">Age/Gender:</tspan> 38 Yrs / Male</text>
+  <text x="580" y="180" class="patient-info"><tspan font-weight="bold">Date:</tspan> 10-Aug-2026</text>
+  <text x="40" y="205" class="patient-info"><tspan font-weight="bold">Chief Complaints:</tspan> Fever 3 days, bodyache, epigastric burning, dry cough</text>
+  <line x1="30" y1="220" x2="770" y2="220" stroke="#cbd5e1" stroke-width="1.5" />
+
+  <!-- Left Sidebar (Clinical Notes) -->
+  <line x1="220" y1="220" x2="220" y2="920" stroke="#e2e8f0" stroke-width="1.5" />
+  <text x="40" y="255" font-family="'Inter', sans-serif" font-weight="bold" font-size="14" fill="#0f766e">O/E:</text>
+  <text x="40" y="285" class="handwritten-sub">BP: 125/80 mmHg</text>
+  <text x="40" y="320" class="handwritten-sub">Pulse: 84 /min</text>
+  <text x="40" y="355" class="handwritten-sub">Temp: 101° F</text>
+  <text x="40" y="390" class="handwritten-sub">Lungs: Clear</text>
+  <text x="40" y="440" font-family="'Inter', sans-serif" font-weight="bold" font-size="14" fill="#0f766e">Investigations:</text>
+  <text x="40" y="475" class="handwritten-sub">- CBC with ESR</text>
+  <text x="40" y="510" class="handwritten-sub">- Dengue NS1 Ag</text>
+  <text x="40" y="545" class="handwritten-sub">- Serum Creatinine</text>
+
+  <!-- Rx Section -->
+  <text x="245" y="275" class="rx-symbol">℞</text>
+
+  <!-- Line 1: Napa Extra -->
+  <rect x="240" y="300" width="510" height="90" rx="4" class="rx-box" />
+  <text x="255" y="340" class="handwritten">1. Tab. Napa Extra (500/65mg)</text>
+  <text x="285" y="375" class="handwritten-sub">১ + ০ + ১ --------------------- ৭ দিন (খাওয়ার পর)</text>
+
+  <!-- Line 2: Seclo 20 -->
+  <rect x="240" y="415" width="510" height="90" rx="4" class="rx-box" />
+  <text x="255" y="455" class="handwritten">2. Cap. Sec1o 20mg</text>
+  <text x="285" y="490" class="handwritten-sub">১ + ০ + ১ (খাবারের ২০ মিনিট পূর্বে) --- ১৪ দিন</text>
+
+  <!-- Line 3: Moxaclav 625 -->
+  <rect x="240" y="530" width="510" height="90" rx="4" class="rx-box" />
+  <text x="255" y="570" class="handwritten">3. Tab. Moxac1av 625 mg</text>
+  <text x="285" y="605" class="handwritten-sub">১ + ০ + ১ --------------------- ৫ দিন (ভরা পেটে)</text>
+
+  <!-- Line 4: Monas 10 -->
+  <rect x="240" y="645" width="510" height="90" rx="4" class="rx-box" />
+  <text x="255" y="685" class="handwritten">4. Tab. Monas 10mg</text>
+  <text x="285" y="720" class="handwritten-sub">০ + ০ + ১ --------------------- ১ মাস (রাতে)</text>
+
+  <!-- Advice -->
+  <text x="255" y="780" font-family="'Inter', sans-serif" font-weight="bold" font-size="14" fill="#0f766e">উপদেশ / Advice:</text>
+  <text x="255" y="815" class="handwritten-sub">• প্রচুর পানি ও তরল খাবার গ্রহণ করবেন</text>
+  <text x="255" y="845" class="handwritten-sub">• জ্বর ১০১° উপরে গেলে মাথায় জলপট্টি দিন</text>
+  <text x="255" y="875" class="handwritten-sub">• ৭ দিন পর রিপোর্টসহ যোগাযোগ করুন</text>
+
+  <!-- Hospital Stamp & Signature Footer -->
+  <line x1="30" y1="920" x2="770" y2="920" stroke="#cbd5e1" stroke-width="1.5" />
+  
+  <!-- Stamp -->
+  <rect x="60" y="945" width="160" height="60" rx="4" class="stamp" />
+  <text x="140" y="970" font-family="'Inter', sans-serif" font-size="11" font-weight="bold" fill="#0284c7" text-anchor="middle">DMCH OUTPATIENT</text>
+  <text x="140" y="990" font-family="'Inter', sans-serif" font-size="10" fill="#0284c7" text-anchor="middle">MEDICINE DEPT - 04</text>
+
+  <!-- Signature -->
+  <text x="600" y="975" class="signature">M. A. Rahman</text>
+  <line x1="560" y1="990" x2="740" y2="990" stroke="#64748b" stroke-width="1" />
+  <text x="650" y="1010" font-family="'Inter', sans-serif" font-size="12" fill="#475569" text-anchor="middle">Doctor's Signature &amp; Seal</text>
+</svg>

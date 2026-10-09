@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1100" width="800" height="1100">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&amp;family=Inter:wght@400;600;700&amp;display=swap');
+      .paper { fill: #fcfdfd; stroke: #cbd5e1; stroke-width: 2; }
+      .header-title { font-family: 'Inter', sans-serif; font-weight: 800; font-size: 20px; fill: #0f766e; }
+      .header-sub { font-family: 'Inter', sans-serif; font-size: 12px; fill: #475569; }
+      .doctor-name { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 16px; fill: #0f172a; }
+      .rx-symbol { font-family: 'Times New Roman', serif; font-weight: bold; font-style: italic; font-size: 40px; fill: #0f766e; }
+      .handwritten { font-family: 'Caveat', cursive; font-size: 29px; fill: #1e293b; }
+      .handwritten-sub { font-family: 'Caveat', cursive; font-size: 23px; fill: #475569; }
+    </style>
+  </defs>
+
+  <rect x="10" y="10" width="780" height="1080" rx="8" class="paper" />
+  
+  <rect x="30" y="30" width="740" height="100" rx="4" fill="#f0fdfa" stroke="#99f6e4" stroke-width="1.5" />
+  <circle cx="75" cy="80" r="28" fill="#0f766e" />
+  <text x="75" y="88" font-family="'Inter', sans-serif" font-size="22" font-weight="bold" fill="#ffffff" text-anchor="middle">BD</text>
+  
+  <text x="125" y="65" class="header-title">BIRDEM GENERAL HOSPITAL &amp; DIABETIC CARE</text>
+  <text x="125" y="85" class="header-sub">122 Kazi Nazrul Islam Avenue, Shahbagh, Dhaka-1000</text>
+  <text x="125" y="105" class="header-sub">Department of Endocrinology &amp; Metabolism | BADAS</text>
+
+  <line x1="30" y1="145" x2="770" y2="145" stroke="#cbd5e1" stroke-width="1.5" />
+  <text x="40" y="172" font-family="'Inter', sans-serif" font-size="13px" fill="#0f172a"><tspan font-weight="bold">Patient:</tspan> Rafiqul Islam | Age: 52Y / M | Date: 15-Aug-2026</text>
+  <text x="40" y="195" font-family="'Inter', sans-serif" font-size="13px" fill="#0f172a"><tspan font-weight="bold">Doctor:</tspan> Dr. Tariqul Islam, MBBS, FCPS, FACP (Endocrinologist)</text>
+  <line x1="30" y1="210" x2="770" y2="210" stroke="#cbd5e1" stroke-width="1.5" />
+
+  <text x="40" y="260" class="rx-symbol">℞</text>
+
+  <g transform="translate(40, 280)">
+    <rect x="0" y="0" width="720" height="100" rx="6" fill="#f8fafc" stroke="#e2e8f0" />
+    <text x="25" y="45" class="handwritten">1. Tab. Comet 500mg</text>
+    <text x="50" y="80" class="handwritten-sub">১ + ০ + ১ --------------------- ৩০ দিন (খাবারের মাঝখানে / With meal)</text>
+  </g>
+
+  <g transform="translate(40, 400)">
+    <rect x="0" y="0" width="720" height="100" rx="6" fill="#f8fafc" stroke="#e2e8f0" />
+    <text x="25" y="45" class="handwritten">2. Tab. Sitaglip 50mg</text>
+    <text x="50" y="80" class="handwritten-sub">১ + ০ + ০ --------------------- ৩০ দিন (সকালে)</text>
+  </g>
+
+  <g transform="translate(40, 520)">
+    <rect x="0" y="0" width="720" height="100" rx="6" fill="#f8fafc" stroke="#e2e8f0" />
+    <text x="25" y="45" class="handwritten">3. Cap. Pantonix 20mg</text>
+    <text x="50" y="80" class="handwritten-sub">১ + ০ + ০ --------------------- ১৪ দিন (সকালে খালি পেটে)</text>
+  </g>
+
+  <rect x="40" y="650" width="720" height="130" rx="6" fill="#f0fdfa" stroke="#ccfbf1" />
+  <text x="60" y="685" font-family="'Inter', sans-serif" font-weight="bold" font-size="14px" fill="#0f766e">পরামর্শ / Dietary Guidelines:</text>
+  <text x="60" y="715" class="handwritten-sub">• চিনি, মিষ্টি, কোমল পানীয় ও গুড় সম্পূর্ণ পরিহার করবেন</text>
+  <text x="60" y="745" class="handwritten-sub">• প্রতিদিন সকালে ৪০ মিনিট দ্রুত হাঁটুন</text>
+  <text x="60" y="775" class="handwritten-sub">• ৩ মাস পর HbA1c ও FBS টেস্ট করাবেন</text>
+
+  <line x1="30" y1="920" x2="770" y2="920" stroke="#cbd5e1" stroke-width="1.5" />
+  <g transform="translate(520, 935)">
+    <text x="120" y="30" font-family="'Caveat', cursive" font-size="30" fill="#0f766e" text-anchor="middle">Tariqul Islam</text>
+    <line x1="20" y1="45" x2="220" y2="45" stroke="#64748b" />
+    <text x="120" y="65" font-family="'Inter', sans-serif" font-size="11" fill="#475569" text-anchor="middle">Dr. Tariqul Islam, FCPS (Endocrinology)</text>
+  </g>
+</svg>

@@ -1,0 +1,109 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+
+:root {
+  --font-inter: 'Inter', sans-serif;
+  --font-jakarta: 'Plus Jakarta Sans', sans-serif;
+  --font-hind-siliguri: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif;
+}
+
+body {
+  font-family: var(--font-inter), var(--font-hind-siliguri), sans-serif;
+  transition: background-color 0.25s ease, color 0.25s ease;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
+/* Medical UI Cards and Glassmorphism */
+.med-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.dark .med-card {
+  background-color: #1e293b;
+  border-color: #334155;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.25);
+}
+
+.med-card-hover:hover {
+  border-color: #0d9488;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(13, 148, 136, 0.1);
+}
+
+.dark .med-card-hover:hover {
+  border-color: #14b8a6;
+  box-shadow: 0 10px 25px -5px rgba(20, 184, 166, 0.2);
+}
+
+/* Bangla Typography Enhancements */
+[lang="bn"], .font-bangla {
+  font-family: var(--font-hind-siliguri), 'Inter', sans-serif;
+  line-height: 1.6;
+}
+
+/* Interactive Bounding Box Highlighting */
+.prescription-bbox {
+  position: absolute;
+  border: 2px solid #0d9488;
+  background-color: rgba(13, 148, 136, 0.15);
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  border-radius: 4px;
+}
+
+.prescription-bbox:hover, .prescription-bbox.active {
+  border-color: #0284c7;
+  background-color: rgba(2, 132, 199, 0.3);
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.25);
+}
+
+/* Subtle glowing accents for trust and health */
+.teal-glow {
+  box-shadow: 0 0 20px -3px rgba(13, 148, 136, 0.25);
+}
+
+.dark .teal-glow {
+  box-shadow: 0 0 25px -2px rgba(20, 184, 166, 0.35);
+}
+
+/* Print styling for medical report */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  nav, footer, .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+}
