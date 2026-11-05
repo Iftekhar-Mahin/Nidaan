@@ -121,7 +121,7 @@ export default function LoginPage() {
                   : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
               }`}
             >
-              Email &amp; Password
+              Email & Password
             </button>
             <button
               type="button"

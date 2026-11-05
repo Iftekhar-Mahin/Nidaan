@@ -60,7 +60,7 @@ export function Navbar() {
                 </span>
               </div>
               <span className="text-[10px] text-slate-500 dark:text-slate-400 tracking-wider uppercase font-semibold hidden sm:inline-block">
-                AI Rx Scanner &amp; Generics
+                AI Rx Scanner & Generics
               </span>
             </div>
           </Link>

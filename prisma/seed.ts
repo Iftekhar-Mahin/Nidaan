@@ -56,13 +56,13 @@ async function main() {
     await prisma.genericDrug.upsert({
       where: { genericName: generic.genericName },
       update: {
-        category: generic.category,
+        category: generic.category || 'General',
         description: generic.description,
       },
       create: {
         id: generic.id,
         genericName: generic.genericName,
-        category: generic.category,
+        category: generic.category || 'General',
         description: generic.description,
       },
     });

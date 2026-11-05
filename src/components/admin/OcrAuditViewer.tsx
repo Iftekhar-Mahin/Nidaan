@@ -84,7 +84,7 @@ export function OcrAuditViewer() {
         <div className="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xs">
           <span className="text-xs text-slate-500 font-semibold uppercase">{t('admin.avgConfidence')}</span>
           <p className="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-1">{formatPercent(91.4)}</p>
-          <span className="text-[11px] text-slate-400">Trigram &amp; Levenshtein Match</span>
+          <span className="text-[11px] text-slate-400">Trigram & Levenshtein Match</span>
         </div>
 
         <div className="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xs">

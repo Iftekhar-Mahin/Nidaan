@@ -330,7 +330,7 @@ export function ImageUploader() {
               {/* Lighting & Contrast Gauge */}
               <div className="space-y-1">
                 <div className="flex justify-between text-xs">
-                  <span className="text-slate-600 dark:text-slate-300 font-medium">Lighting &amp; Contrast</span>
+                  <span className="text-slate-600 dark:text-slate-300 font-medium">Lighting & Contrast</span>
                   <span className="font-bold text-slate-900 dark:text-white">
                     {qualityReport ? toBangla(qualityReport.contrastScore) : '--'}/১০০
                   </span>

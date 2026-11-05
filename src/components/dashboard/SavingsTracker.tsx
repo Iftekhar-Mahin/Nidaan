@@ -124,7 +124,7 @@ export function SavingsTracker({ prescriptions }: SavingsTrackerProps) {
             </p>
           </div>
           <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">
-            Top Savings: Gastric &amp; Cardio
+            Top Savings: Gastric & Cardio
           </span>
         </div>
 

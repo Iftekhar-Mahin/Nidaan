@@ -154,8 +154,9 @@ class OcrLine(BaseModel):
     box: Optional[dict] = None
 
 
-# ── POST /api/v1/ocr ─────────────────────────────────────────────────────────
+# ── POST /api/v1/ocr (and alias /ocr) ────────────────────────────────────────
 @app.post("/api/v1/ocr")
+@app.post("/ocr")
 async def run_ocr(file: UploadFile = File(...)):
     """
     Accepts a prescription image file.
@@ -240,8 +241,9 @@ async def run_ocr(file: UploadFile = File(...)):
     }
 
 
-# ── POST /api/v1/match ───────────────────────────────────────────────────────
+# ── POST /api/v1/match (and alias /match) ───────────────────────────────────
 @app.post("/api/v1/match")
+@app.post("/match")
 async def match_medicine(req: MatchRequest):
     """
     Accepts a raw OCR text string (drug name, possibly misspelled).
@@ -264,13 +266,14 @@ async def match_medicine(req: MatchRequest):
     }
 
 
-# ── GET /api/v1/health ───────────────────────────────────────────────────────
+# ── GET /api/v1/health (and alias /health) ───────────────────────────────────
 @app.get("/api/v1/health")
+@app.get("/health")
 def health():
-    from app.ocr_engine import _ort_model, _processor
+    from app.ocr_engine import _model, _processor
     return {
         "status": "ok",
-        "trocr_loaded": _ort_model is not None,
+        "trocr_loaded": _model is not None,
         "yolov8_loaded": _yolo_model is not None,
         "version": "2.0.0",
     }

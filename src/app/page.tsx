@@ -165,7 +165,7 @@ export default function HomePage() {
         
         <div className="text-center max-w-2xl mx-auto space-y-2">
           <span className="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">
-            Frictionless &amp; Transparent
+            Frictionless & Transparent
           </span>
           <h2 className="font-heading font-extrabold text-2xl sm:text-3xl text-slate-900 dark:text-white">
             {t('home.howItWorksTitle')}

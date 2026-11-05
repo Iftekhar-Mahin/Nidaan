@@ -3,7 +3,7 @@ import { prisma } from '@/lib/db';
 import { parsePrescriptionText } from '@/lib/ocr/parser';
 import { INITIAL_BRAND_MEDICINES } from '@/lib/sample-data';
 
-const OCR_SERVICE_URL = process.env.OCR_SERVICE_URL || 'http://localhost:8000';
+const OCR_SERVICE_URL = process.env.OCR_SERVICE_URL || 'http://localhost:8001';
 const GEMINI_API_KEY  = process.env.GEMINI_API_KEY  || '';
 
 /** POST /api/scan
@@ -12,7 +12,7 @@ const GEMINI_API_KEY  = process.env.GEMINI_API_KEY  || '';
  * Also accepts JSON body with `lines` or `rawText` for direct text input.
  *
  * Flow:
- *  1. If image file is uploaded → forward to Python OCR microservice (EasyOCR + Gemini)
+ *  1. If image file is uploaded → forward to Python OCR microservice (EasyOCR + TrOCR + Gemini)
  *  2. OCR microservice returns extracted medicine lines with confidence scores
  *  3. Lines are passed to clinical NLP parser + fuzzy drug matcher
  *  4. Returns structured ParsedMedicineItem[]
@@ -39,13 +39,27 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: 'No image file provided' }, { status: 400 });
       }
 
-      // Check if OCR service is available
+      // Check if OCR service is available (check both /health and /api/v1/health)
       let ocrServiceAvailable = false;
+      let ocrEndpoint = `${OCR_SERVICE_URL}/ocr`;
+
       try {
         const healthCheck = await fetch(`${OCR_SERVICE_URL}/health`, { signal: AbortSignal.timeout(2000) });
-        ocrServiceAvailable = healthCheck.ok;
+        if (healthCheck.ok) {
+          ocrServiceAvailable = true;
+          ocrEndpoint = `${OCR_SERVICE_URL}/ocr`;
+        }
       } catch {
-        ocrServiceAvailable = false;
+        // try /api/v1/health
+        try {
+          const healthCheckV1 = await fetch(`${OCR_SERVICE_URL}/api/v1/health`, { signal: AbortSignal.timeout(2000) });
+          if (healthCheckV1.ok) {
+            ocrServiceAvailable = true;
+            ocrEndpoint = `${OCR_SERVICE_URL}/api/v1/ocr`;
+          }
+        } catch {
+          ocrServiceAvailable = false;
+        }
       }
 
       let ocrLines: { text: string; confidence: number; source: string; box: any }[] = [];
@@ -56,7 +70,7 @@ export async function POST(request: Request) {
         ocrForm.append('file', imageFile);
         if (GEMINI_API_KEY) ocrForm.append('gemini_api_key', GEMINI_API_KEY);
 
-        const ocrResponse = await fetch(`${OCR_SERVICE_URL}/ocr`, {
+        const ocrResponse = await fetch(ocrEndpoint, {
           method: 'POST',
           body: ocrForm,
           signal: AbortSignal.timeout(30000), // 30s timeout
@@ -65,7 +79,7 @@ export async function POST(request: Request) {
         if (!ocrResponse.ok) {
           const err = await ocrResponse.text();
           return NextResponse.json(
-            { error: `OCR service error: ${err}`, hint: 'Make sure ocr_server.py is running' },
+            { error: `OCR service error: ${err}`, hint: 'Make sure the OCR backend (app.main or ocr_server) is running' },
             { status: 502 }
           );
         }
@@ -77,7 +91,7 @@ export async function POST(request: Request) {
         return NextResponse.json(
           {
             error: 'OCR service is not running',
-            hint: 'Start the OCR service first: run `python scripts/ocr_server.py` in a separate terminal',
+            hint: 'Start the OCR service: run `python -m uvicorn app.main:app --host 0.0.0.0 --port 8001 --reload` or `python scripts/ocr_server.py`',
             ocrServiceUrl: OCR_SERVICE_URL,
           },
           { status: 503 }

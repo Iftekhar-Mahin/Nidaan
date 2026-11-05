@@ -1,5 +1,5 @@
 """
-app/ocr_engine.py — OpenCV preprocessing + ONNX TrOCR inference
+app/ocr_engine.py — OpenCV preprocessing + PyTorch TrOCR inference
 """
 import os
 import io
@@ -11,41 +11,38 @@ logger = logging.getLogger("nidaan.ocr")
 
 # ── Model handles (loaded once at startup) ──────────────────────────────────
 _processor = None
-_ort_model = None
-_model_dir = os.path.join(os.path.dirname(__file__), '..', 'models', 'nidaan-trocr-onnx')
+_model = None
+_model_dir = os.path.join(os.path.dirname(__file__), '..', 'models', 'nidaan-trocr-final')
 
 
 def load_ocr_model():
-    """Load ONNX TrOCR + processor. Call once at startup."""
-    global _processor, _ort_model
-    if _processor is not None:
+    """Load PyTorch TrOCR + processor. Call once at startup."""
+    global _processor, _model
+    if _model is not None:
         return
 
     if not os.path.isdir(_model_dir):
         logger.warning(
-            f"ONNX model not found at {_model_dir}. "
+            f"Trained model not found at {_model_dir}. "
             "OCR will return empty results until model is installed. "
-            "Train on Colab and extract nidaan-trocr-onnx.zip to models/nidaan-trocr-onnx/"
+            "Download nidaan-trocr-final.zip from Colab and extract to models/nidaan-trocr-final/"
         )
         return
 
     try:
-        from optimum.onnxruntime import ORTModelForVision2Seq
-        from transformers import TrOCRProcessor
-        import onnxruntime as ort
+        import torch
+        from transformers import TrOCRProcessor, VisionEncoderDecoderModel
 
-        opts = ort.SessionOptions()
-        opts.intra_op_num_threads = 4           # Use 4 of your 8 i7 threads
-        opts.execution_mode = ort.ExecutionMode.ORT_PARALLEL
+        # Run on CPU with all available threads
+        torch.set_num_threads(4)
 
         _processor = TrOCRProcessor.from_pretrained(_model_dir)
-        _ort_model = ORTModelForVision2Seq.from_pretrained(
-            _model_dir,
-            session_options=opts,
-        )
-        logger.info("✅ ONNX TrOCR model loaded successfully")
+        _model = VisionEncoderDecoderModel.from_pretrained(_model_dir)
+        _model.eval()
+
+        logger.info("✅ PyTorch TrOCR model loaded successfully on CPU")
     except Exception as e:
-        logger.error(f"Failed to load ONNX model: {e}")
+        logger.error(f"Failed to load PyTorch TrOCR model: {e}")
 
 
 def preprocess_image_cv(image: Image.Image) -> Image.Image:
@@ -95,28 +92,29 @@ def preprocess_image_cv(image: Image.Image) -> Image.Image:
 
 def run_trocr_on_crop(line_image: Image.Image) -> tuple[str, float]:
     """
-    Run TrOCR ONNX inference on a single cropped medicine line image.
+    Run TrOCR inference on a single cropped medicine line image.
     Returns (predicted_text, confidence_score).
     """
-    if _processor is None or _ort_model is None:
+    if _processor is None or _model is None:
         return "", 0.0
 
     try:
+        import torch
+
         # Resize to TrOCR expected dimensions
-        line_resized = line_image.resize((384, 64), Image.LANCZOS)
+        line_resized = line_image.resize((384, 384), Image.BILINEAR)
         pixel_values = _processor(images=line_resized, return_tensors="pt").pixel_values
 
-        generated = _ort_model.generate(
-            pixel_values,
-            max_new_tokens=32,
-            num_beams=4,           # beam search for better accuracy
-            early_stopping=True,
-        )
+        with torch.no_grad():
+            generated = _model.generate(
+                pixel_values,
+                max_new_tokens=32,
+                num_beams=4,
+                early_stopping=True,
+            )
 
         text = _processor.batch_decode(generated, skip_special_tokens=True)[0].strip()
-
-        # Estimate confidence from sequence length vs output length
-        confidence = min(0.95, max(0.35, len(text) / 30 + 0.4)) if text else 0.0
+        confidence = min(0.95, max(0.40, len(text) / 25 + 0.5)) if text else 0.0
 
         return text, round(confidence, 3)
 

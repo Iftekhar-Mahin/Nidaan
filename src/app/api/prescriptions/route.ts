@@ -5,11 +5,15 @@ export async function GET() {
   try {
     const prescriptions = await prisma.prescription.findMany({
       include: {
-        parsedItems: true,
+        items: true,
       },
       orderBy: { createdAt: 'desc' },
     });
-    return NextResponse.json({ prescriptions });
+    const formatted = prescriptions.map((p) => ({
+      ...p,
+      parsedItems: p.items,
+    }));
+    return NextResponse.json({ prescriptions: formatted });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
@@ -18,7 +22,8 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { userId, imageUrl, status, parsedItems } = body;
+    const { userId, imageUrl, status, parsedItems, items } = body;
+    const itemsToCreate = parsedItems || items || [];
 
     const newRx = await prisma.prescription.create({
       data: {
@@ -26,8 +31,8 @@ export async function POST(request: Request) {
         userId: userId || 'user-patient-1',
         imageUrl: imageUrl || '/samples/prescription_dmch.svg',
         status: status || 'PENDING',
-        parsedItems: {
-          create: parsedItems?.map((item: any) => ({
+        items: {
+          create: itemsToCreate.map((item: any) => ({
             id: `item-${Date.now()}-${Math.random().toString(36).substring(7)}`,
             rawOcrText: item.rawOcrText || '',
             matchedBrand: item.matchedBrand || null,
@@ -40,10 +45,15 @@ export async function POST(request: Request) {
           })),
         },
       },
-      include: { parsedItems: true },
+      include: { items: true },
     });
 
-    return NextResponse.json({ success: true, prescription: newRx });
+    const responseRx = {
+      ...newRx,
+      parsedItems: newRx.items,
+    };
+
+    return NextResponse.json({ success: true, prescription: responseRx });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

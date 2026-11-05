@@ -40,7 +40,7 @@ export default function ProfilePage() {
       {/* Title */}
       <div className="space-y-1 border-b border-slate-200 dark:border-slate-800 pb-4">
         <h1 className="font-heading font-extrabold text-2xl sm:text-3xl text-slate-900 dark:text-white">
-          {t('nav.profile')} &amp; Preferences
+          {t('nav.profile')} & Preferences
         </h1>
         <p className="text-xs text-slate-500 dark:text-slate-400">
           Manage your personal information, preferred language, theme, and security settings
@@ -132,7 +132,7 @@ export default function ProfilePage() {
 
             {/* Language & Theme Controls */}
             <h3 className="font-bold text-sm text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-700 pt-3 pb-2">
-              Application Appearance &amp; Localization
+              Application Appearance & Localization
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">

@@ -164,7 +164,7 @@ export function DrugManager() {
               <tr className="bg-slate-50 dark:bg-slate-900/60 text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700">
                 <th className="py-3 px-4">{t('admin.brandName')}</th>
                 <th className="py-3 px-4">{t('admin.genericName')}</th>
-                <th className="py-3 px-4">{t('admin.strength')} &amp; {t('admin.form')}</th>
+                <th className="py-3 px-4">{t('admin.strength')} & {t('admin.form')}</th>
                 <th className="py-3 px-4">{t('admin.manufacturer')}</th>
                 <th className="py-3 px-4">{t('admin.unitPrice')}</th>
                 <th className="py-3 px-4 text-right">{t('admin.actions')}</th>
