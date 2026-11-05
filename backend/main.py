@@ -24,9 +24,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from PIL import Image
 
-from app.ocr_engine import load_ocr_model, preprocess_image_cv, run_trocr_on_crop
-from app.matcher import load_brand_cache, match_drug
-from app.db import engine, search_brands_trgm
+from backend.ocr_engine import load_ocr_model, preprocess_image_cv, run_trocr_on_crop
+from backend.matcher import load_brand_cache, match_drug
+from backend.db import engine, search_brands_trgm
 
 logging.basicConfig(
     level=logging.INFO,
@@ -270,7 +270,7 @@ async def match_medicine(req: MatchRequest):
 @app.get("/api/v1/health")
 @app.get("/health")
 def health():
-    from app.ocr_engine import _model, _processor
+    from backend.ocr_engine import _model, _processor
     return {
         "status": "ok",
         "trocr_loaded": _model is not None,
@@ -286,4 +286,4 @@ if __name__ == "__main__":
     print("  Match: http://localhost:8001/api/v1/match")
     print("  Docs : http://localhost:8001/docs")
     print("=" * 60 + "\n")
-    uvicorn.run("app.main:app", host="0.0.0.0", port=8001, reload=True)
+    uvicorn.run("backend.main:app", host="0.0.0.0", port=8001, reload=True)

@@ -2,7 +2,7 @@
 app/matcher.py — RapidFuzz weighted drug name matching + pg_trgm fallback
 """
 from rapidfuzz import fuzz, process
-from app.db import search_brands_trgm
+from backend.db import search_brands_trgm
 
 # In-memory brand cache populated at startup from PostgreSQL
 _brand_cache: list[dict] = []
