@@ -59,3 +59,5 @@ venv.bak/
 *.sqlite
 dev.db
 dev.db-journal
+
+.vercel

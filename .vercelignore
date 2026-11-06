@@ -1,0 +1,23 @@
+# Python backend — not needed for Vercel (runs on Railway separately)
+backend/venv/
+backend/__pycache__/
+backend/*.pyc
+
+# ML models — too large for Vercel, served from Railway backend
+models/
+datasets/
+*.zip
+*.tar.gz
+*.safetensors
+*.pt
+*.onnx
+*.bin
+
+# Dev artifacts
+.env
+*.log
+node_modules/
+.next/
+__pycache__/
+*.pyc
+*.pyo
