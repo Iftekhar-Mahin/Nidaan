@@ -135,7 +135,16 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:3001"],
+    allow_origins=[
+        "http://localhost:3000",
+        "http://localhost:3001",
+        # Production — Vercel deployments
+        "https://nidaan.vercel.app",
+        "https://nidaan-git-main-iftekhar-mahin.vercel.app",
+        # Allow all vercel.app preview URLs for this project
+        os.environ.get("FRONTEND_URL", ""),
+    ],
+    allow_origin_regex=r"https://nidaan.*\.vercel\.app",
     allow_methods=["*"],
     allow_headers=["*"],
 )
