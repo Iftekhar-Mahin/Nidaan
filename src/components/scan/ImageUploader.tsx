@@ -21,22 +21,16 @@ import {
   Loader2,
   FileImage,
   RefreshCw,
+  Crop,
 } from 'lucide-react';
 
 export function ImageUploader() {
   const { t, language, toBangla } = useTranslation();
   const router = useRouter();
 
-  const [selectedImage, setSelectedImage] = useState<string | null>(SAMPLE_PRESETS[0].imageUrl);
-  const [selectedPresetId, setSelectedPresetId] = useState<string>(SAMPLE_PRESETS[0].id);
-  const [qualityReport, setQualityReport] = useState<ImageQualityReport | null>({
-    isAcceptable: true,
-    blurScore: 88,
-    brightnessScore: 68,
-    contrastScore: 75,
-    issues: [],
-    suggestions: [],
-  });
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedPresetId, setSelectedPresetId] = useState<string>('');
+  const [qualityReport, setQualityReport] = useState<ImageQualityReport | null>(null);
   const [isAnalyzingQuality, setIsAnalyzingQuality] = useState(false);
   const [isProcessingOcr, setIsProcessingOcr] = useState(false);
   const [ocrStep, setOcrStep] = useState<number>(0);
@@ -200,49 +194,8 @@ export function ImageUploader() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       
-      {/* Sample Presets Selector */}
-      <div className="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xs">
-        <div className="flex items-center gap-2 mb-3">
-          <Sparkles className="w-4 h-4 text-brand-600 dark:text-brand-400" />
-          <h3 className="font-bold text-xs sm:text-sm uppercase tracking-wider text-slate-700 dark:text-slate-200">
-            {t('scan.samplePresets')}
-          </h3>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          {SAMPLE_PRESETS.map((preset) => {
-            const isSelected = selectedPresetId === preset.id;
-            return (
-              <button
-                key={preset.id}
-                type="button"
-                onClick={() => handleSelectPreset(preset.id)}
-                className={`p-3.5 rounded-xl border text-left transition-all ${
-                  isSelected
-                    ? 'border-brand-600 bg-brand-50/80 dark:bg-brand-950/60 ring-2 ring-brand-500/20 shadow-xs'
-                    : 'border-slate-200 dark:border-slate-700 hover:border-brand-300 hover:bg-slate-50 dark:hover:bg-slate-750'
-                }`}
-              >
-                <div className="flex items-start justify-between gap-2 mb-1">
-                  <span className="font-bold text-xs text-slate-900 dark:text-white line-clamp-1">
-                    {language === 'bn' ? preset.titleBn : preset.titleEn}
-                  </span>
-                  {isSelected && <CheckCircle2 className="w-4 h-4 text-brand-600 dark:text-brand-400 shrink-0" />}
-                </div>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
-                  {preset.clinic}
-                </p>
-                <span className="inline-block mt-2 text-[10px] px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-700 font-semibold text-slate-600 dark:text-slate-300">
-                  {toBangla(preset.medicines.length)} {language === 'bn' ? 'টি ওষুধ' : 'medicines'}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
       {/* Main Upload / Camera & Quality Inspection Box */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
@@ -270,16 +223,25 @@ export function ImageUploader() {
                   <button
                     type="button"
                     onClick={() => setEditorOpen(true)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-600 hover:bg-slate-50 shadow-xs"
+                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-brand-600 hover:bg-brand-700 text-white shadow-xs transition-colors"
+                  >
+                    <Crop className="w-3.5 h-3.5" />
+                    <span>Crop Prescription Area</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setEditorOpen(true)}
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-600 hover:bg-slate-50 shadow-xs"
                   >
                     <Sliders className="w-3.5 h-3.5 text-brand-600 dark:text-brand-400" />
-                    <span>{t('scan.openEditor')}</span>
+                    <span>Adjust Contrast</span>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-600 hover:bg-slate-50 shadow-xs"
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-600 hover:bg-slate-50 shadow-xs"
                   >
                     <RefreshCw className="w-3.5 h-3.5 text-slate-500" />
                     <span>Change Image</span>
