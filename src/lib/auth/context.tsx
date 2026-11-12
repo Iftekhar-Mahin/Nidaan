@@ -71,25 +71,49 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(false);
   }, []);
 
-  const loginWithCredentials = async (emailOrPhone: string, _password?: string): Promise<boolean> => {
+  const loginWithCredentials = async (emailOrPhone: string, password?: string): Promise<boolean> => {
     setIsLoading(true);
-    // Match against demo users or create patient session
+    // Match against demo users
     let target = Object.values(DEMO_USERS).find(
       (u) => u.email === emailOrPhone || u.phone === emailOrPhone
     );
 
-    if (!target) {
-      target = {
-        id: `user-${Date.now()}`,
-        name: emailOrPhone.split('@')[0] || 'Nidaan User',
-        email: emailOrPhone.includes('@') ? emailOrPhone : undefined,
-        phone: !emailOrPhone.includes('@') ? emailOrPhone : undefined,
-        role: 'PATIENT',
-        language: 'bn',
-        theme: 'light',
-        createdAt: new Date().toISOString(),
-      };
+    if (target) {
+      setUser(target);
+      localStorage.setItem('nidaan_current_user', JSON.stringify(target));
+      setIsLoading(false);
+      return true;
     }
+
+    try {
+      const res = await fetch('/api/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'login', emailOrPhone, password }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.user) {
+          setUser(data.user);
+          localStorage.setItem('nidaan_current_user', JSON.stringify(data.user));
+          setIsLoading(false);
+          return true;
+        }
+      }
+    } catch (e) {
+      console.warn('API login failed, falling back to local session:', e);
+    }
+
+    target = {
+      id: `user-${Date.now()}`,
+      name: emailOrPhone.split('@')[0] || 'Nidaan User',
+      email: emailOrPhone.includes('@') ? emailOrPhone : undefined,
+      phone: !emailOrPhone.includes('@') ? emailOrPhone : undefined,
+      role: 'PATIENT',
+      language: 'bn',
+      theme: 'light',
+      createdAt: new Date().toISOString(),
+    };
 
     setUser(target);
     localStorage.setItem('nidaan_current_user', JSON.stringify(target));
@@ -108,7 +132,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const register = async (name: string, email: string, phone: string, role: Role = 'PATIENT'): Promise<boolean> => {
-    const newUser: User = {
+    setIsLoading(true);
+    let newUser: User = {
       id: `user-${Date.now()}`,
       name,
       email,
@@ -118,8 +143,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       theme: 'light',
       createdAt: new Date().toISOString(),
     };
+
+    try {
+      const res = await fetch('/api/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'register', name, email, phone, role }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.user) {
+          newUser = data.user;
+        }
+      }
+    } catch (e) {
+      console.warn('API register failed, using local session:', e);
+    }
+
     setUser(newUser);
     localStorage.setItem('nidaan_current_user', JSON.stringify(newUser));
+    setIsLoading(false);
     return true;
   };
 
