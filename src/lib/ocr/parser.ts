@@ -106,15 +106,17 @@ export function extractMedicineEntities(
     form = 'Capsule';
   } else if (/\b(syr|syrup|সিরাপ)\b/i.test(normalizedText)) {
     form = 'Syrup';
-  } else if (/\b(inj|injection|ইনজেকশন)\b/i.test(normalizedText)) {
+  } else if (/\b(inj|injection|ইনজেকশন|মাংসে)\b/i.test(normalizedText)) {
     form = 'Injection';
   } else if (/\b(drop|eye drop|ড্রপ)\b/i.test(normalizedText)) {
     form = 'Drop';
-  } else if (/\b(oint|ointment|মলম)\b/i.test(normalizedText)) {
+  } else if (/\b(oint|ointment|cream|মলম|ক্রিম)\b/i.test(normalizedText)) {
     form = 'Ointment';
+  } else if (/\b(inhaler|ইনহেলার|respule|rotacap)\b/i.test(normalizedText)) {
+    form = 'Inhaler';
   }
 
-  // 2. Extract Strength (e.g., 500mg, 20mg, 5/20mg, 500/65mg, 50mcg, 100ml)
+  // 2. Extract Strength (e.g., 500mg, 20mg, 5/20mg, 500/65mg, 50mcg, 75mcg, 100ml)
   let strength = '';
   const strengthMatch = normalizedText.match(/\b(\d+(?:\/\d+)?(?:\.\d+)?)\s*(mg|mcg|gm|ml|iu)\b/i);
   if (strengthMatch) {
@@ -130,19 +132,21 @@ export function extractMedicineEntities(
     } else {
       dosageSchedule = `${scheduleMatch[1]}-${scheduleMatch[2]}-${scheduleMatch[3]}`;
     }
-  } else if (/\b(od|once daily|১ বার)\b/i.test(normalizedText)) {
+  } else if (/\b(od|once daily)\b|১\s*বার|এক\s*বার|সকালে/i.test(normalizedText)) {
     dosageSchedule = '1-0-0';
-  } else if (/\b(bd|bid|twice daily|২ বার)\b/i.test(normalizedText)) {
+  } else if (/\b(bd|bid|twice daily)\b|২\s*বার|দুই\s*বার/i.test(normalizedText)) {
     dosageSchedule = '1-0-1';
-  } else if (/\b(tds|tid|thrice daily|৩ বার)\b/i.test(normalizedText)) {
+  } else if (/\b(tds|tid|thrice daily)\b|৩\s*বার|তিন\s*বার/i.test(normalizedText)) {
     dosageSchedule = '1-1-1';
-  } else if (/\b(hs|at night|রাতে)\b/i.test(normalizedText)) {
+  } else if (/\b(hs|at night)\b|রাতে|রাত্রে|সন্ধ্যা/i.test(normalizedText)) {
     dosageSchedule = '0-0-1';
+  } else if (/মাংসে|মাংসপেশীতে|ইনজেকশন/i.test(normalizedText)) {
+    dosageSchedule = 'Depot IM (Monthly)';
   }
 
-  // 4. Extract Duration (e.g. 7 days, 14 days, 1 month, 3 months, ৭ দিন, ১ মাস)
+  // 4. Extract Duration (e.g. 7 days, 14 days, 1 month, 3 months, ৭ দিন, ১ মাস, চলবে)
   let duration = '7 days';
-  const durationMatch = normalizedText.match(/\b(\d+)\s*(days?|months?|weeks?|দিন|মাস|সপ্তাহ)\b/i);
+  const durationMatch = normalizedText.match(/(\d+)\s*(days?|months?|weeks?|দিন|মাস|সপ্তাহ)/i);
   if (durationMatch) {
     const num = durationMatch[1];
     const unit = durationMatch[2].toLowerCase();
@@ -153,30 +157,33 @@ export function extractMedicineEntities(
     } else {
       duration = `${num} days`;
     }
+  } else if (/চলবে|continue|ongoing/i.test(normalizedText)) {
+    duration = 'Continuous';
   }
 
   // 5. Extract Instructions (e.g. pc, ac, after meal, before meal, খাওয়ার পর, খালি পেটে)
   let instructions = 'After meal';
-  if (/\b(ac|before meal|খাবারের আগে|খালি পেটে)\b/i.test(normalizedText)) {
+  if (/(?:খাবারের আগে|খাওয়ার আগে|খাওয়ার আগে|খালি পেটে|নাস্তার আগে|ac\b|before meal)/i.test(normalizedText)) {
     instructions = 'Before meal';
-  } else if (/\b(pc|after meal|খাওয়ার পর|ভরা পেটে)\b/i.test(normalizedText)) {
+  } else if (/(?:খাবারের পর|খাওয়ার পর|খাওয়ার পর|খাওয়ার পরে|খাওয়ার পরে|ভরা পেটে|pc\b|after meal)/i.test(normalizedText)) {
     instructions = 'After meal';
-  } else if (/\b(with meals?|খাবারের সাথে)\b/i.test(normalizedText)) {
+  } else if (/(?:খাবারের সাথে|খাওয়ার সাথে|খাওয়ার সাথে|with meal|with meals)/i.test(normalizedText)) {
     instructions = 'With meals';
-  } else if (/\b(night|bedtime|শোবার আগে)\b/i.test(normalizedText)) {
+  } else if (/(?:রাতে|রাত্রে|শোবার আগে|bedtime|at night|hs\b)/i.test(normalizedText)) {
     instructions = 'At bedtime';
   }
 
   // 6. Extract Drug Name and Match Against Localized Database
-  // Remove numbers, dosage formats, instructions, and prefixes
+  // Strip Bangla and English instructions, schedule numbers, and medical prefixes
   let candidateName = normalizedText
     .replace(/^\s*\d+[\.\)]\s*/, '')
-    .replace(/\b(tab|cap|syr|inj|tablets?|capsules?)\b\.?/gi, '')
+    .replace(/\b(tab|cap|syr|inj|tablets?|capsules?|syrup|injection|drop|ointment|cream)\b\.?/gi, '')
     .replace(/\b\d+(?:\/\d+)?(?:\.\d+)?\s*(mg|mcg|gm|ml|iu)\b/gi, '')
-    .replace(/\b[0-3]\s*[+\-–]\s*[0-3]\s*[+\-–]\s*[0-3]\b/g, '')
-    .replace(/\b\d+\s*(days?|months?|weeks?|দিন|মাস)\b/gi, '')
-    .replace(/\b(pc|ac|od|bd|tds|hs|continue|before|after|meal|meals|daily|night|with|breakfast|lunch|dinner)\b/gi, '')
-    .replace(/[^a-zA-Z0-9\s]/g, '')
+    .replace(/\b[0-3]\s*[+\-–]\s*[0-3]\s*[+\-–]\s*[0-3](?:\s*[+\-–]\s*[0-3])?\b/g, '')
+    .replace(/\d+\s*(?:days?|months?|weeks?|দিন|মাস|সপ্তাহ)/gi, '')
+    .replace(/(চলবে|সকালে|সন্ধ্যা|রাত্রে|রাতে|খালি পেটে|ভরা পেটে|খাওয়ার আগে|খাওয়ার আগে|খাওয়ার পর|খাওয়ার পর|খাওয়ার পরে|খাওয়ার পরে|খাবারের আগে|খাবারের পর|মাংসপেশীতে|মাংসে|ইনজেকশন|বার|টা|পর পর|চলবে|নাস্তার আগে|নাস্তার পর)/gi, '')
+    .replace(/\b(pc|ac|od|bd|tds|hs|continue|before|after|meal|meals|daily|night|with|breakfast|lunch|dinner|ongoing)\b/gi, '')
+    .replace(/[^a-zA-Z0-9\s\+\-\/]/g, ' ')
     .trim();
 
   // Clean extra spaces

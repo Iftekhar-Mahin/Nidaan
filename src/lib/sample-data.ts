@@ -121,6 +121,150 @@ export const INITIAL_GENERIC_DRUGS: GenericDrug[] = [
     category: 'Thyroid Hormone',
     description: 'Synthetic T4 replacement for hypothyroidism.',
   },
+  {
+    id: 'gen-cetirizine',
+    genericName: 'Cetirizine Hydrochloride',
+    category: 'Antihistamine (Anti-allergic)',
+    description: 'Rapid-acting antihistamine for allergic rhinitis, urticaria, pruritus, and runny nose.',
+  },
+  {
+    id: 'gen-levocetirizine',
+    genericName: 'Levocetirizine Dihydrochloride',
+    category: 'Antihistamine (Anti-allergic)',
+    description: 'Active R-enantiomer of cetirizine with higher affinity and minimal sedation.',
+  },
+  {
+    id: 'gen-glimepiride',
+    genericName: 'Glimepiride',
+    category: 'Sulfonylurea (Antidiabetic)',
+    description: 'Second-generation sulfonylurea that stimulates insulin release from pancreatic beta cells.',
+  },
+  {
+    id: 'gen-linagliptin',
+    genericName: 'Linagliptin',
+    category: 'DPP-4 Inhibitor (Antidiabetic)',
+    description: 'Once-daily DPP-4 inhibitor without requirement for renal dose adjustments in diabetes.',
+  },
+  {
+    id: 'gen-linagliptin-metformin',
+    genericName: 'Linagliptin + Metformin Hydrochloride',
+    category: 'Dual Combination Antidiabetic',
+    description: 'Synergistic combination improving glycemic control in type 2 diabetes mellitus.',
+  },
+  {
+    id: 'gen-naproxen',
+    genericName: 'Naproxen Sodium',
+    category: 'NSAID (Analgesic & Anti-inflammatory)',
+    description: 'Long-acting nonsteroidal anti-inflammatory for arthritis, musculoskeletal pain, and backache.',
+  },
+  {
+    id: 'gen-naproxen-esomeprazole',
+    genericName: 'Naproxen + Esomeprazole',
+    category: 'Gastro-protected NSAID',
+    description: 'Combines anti-inflammatory naproxen with esomeprazole to protect stomach lining from ulcers.',
+  },
+  {
+    id: 'gen-tizanidine',
+    genericName: 'Tizanidine',
+    category: 'Central Alpha-2 Agonist (Muscle Relaxant)',
+    description: 'Reduces muscle spasticity, stiffness, low back pain, and painful muscular spasms.',
+  },
+  {
+    id: 'gen-glucosamine-chondroitin',
+    genericName: 'Glucosamine + Chondroitin',
+    category: 'Joint & Cartilage Supplement',
+    description: 'Stimulates cartilage synthesis and relieves osteoarthritis pain and joint stiffness.',
+  },
+  {
+    id: 'gen-mirtazapine',
+    genericName: 'Mirtazapine',
+    category: 'Noradrenergic & Specific Serotonergic Antidepressant (NaSSA)',
+    description: 'Treats major depression, insomnia, and loss of appetite.',
+  },
+  {
+    id: 'gen-prednisolone',
+    genericName: 'Prednisolone',
+    category: 'Corticosteroid (Anti-inflammatory & Immunosuppressive)',
+    description: 'Potent systemic corticosteroid for autoimmune disorders, severe inflammation, and asthma.',
+  },
+  {
+    id: 'gen-testosterone',
+    genericName: 'Testosterone Enanthate',
+    category: 'Androgen Hormone Replacement',
+    description: 'Depot intramuscular injection for primary and secondary hypogonadism.',
+  },
+  {
+    id: 'gen-multivitamin-minerals',
+    genericName: 'Multivitamin + Multimineral + Zinc / Antioxidant',
+    category: 'Comprehensive Dietary Supplement',
+    description: 'Provides essential vitamins, trace minerals, and antioxidants for convalescence and vitality.',
+  },
+  {
+    id: 'gen-doxophylline',
+    genericName: 'Doxophylline',
+    category: 'Xanthine Derivative (Bronchodilator)',
+    description: 'New-generation bronchodilator for bronchial asthma and chronic obstructive pulmonary disease (COPD).',
+  },
+  {
+    id: 'gen-clonazepam',
+    genericName: 'Clonazepam',
+    category: 'Benzodiazepine (Anxiolytic & Anticonvulsant)',
+    description: 'High-potency benzodiazepine for panic disorder, generalized anxiety, and seizure disorders.',
+  },
+  {
+    id: 'gen-ketorolac',
+    genericName: 'Ketorolac Tromethamine',
+    category: 'NSAID (Acute Analgesic)',
+    description: 'Short-term management of moderate to severe acute postoperative and orthopedic pain.',
+  },
+  {
+    id: 'gen-aceclofenac',
+    genericName: 'Aceclofenac',
+    category: 'NSAID (Anti-inflammatory & Analgesic)',
+    description: 'Preferential COX-2 inhibitor with superior gastric tolerance for osteoarthritis and rheumatoid arthritis.',
+  },
+  {
+    id: 'gen-bisoprolol',
+    genericName: 'Bisoprolol Hemifumarate',
+    category: 'Selective Beta-1 Blocker (Cardiovascular)',
+    description: 'Lowers blood pressure and heart rate; manages angina pectoris and chronic heart failure.',
+  },
+  {
+    id: 'gen-telmisartan',
+    genericName: 'Telmisartan',
+    category: 'Angiotensin II Receptor Blocker (ARB)',
+    description: '24-hour blood pressure control with organ-protective properties in cardiovascular risk patients.',
+  },
+  {
+    id: 'gen-ciprofloxacin',
+    genericName: 'Ciprofloxacin',
+    category: 'Fluoroquinolone Antibiotic',
+    description: 'Broad-spectrum bactericidal antibiotic for enteric fever, urinary tract, and bone infections.',
+  },
+  {
+    id: 'gen-cefuroxime',
+    genericName: 'Cefuroxime Axetil',
+    category: 'Second-Generation Cephalosporin Antibiotic',
+    description: 'Treats upper and lower respiratory tract infections, sinusitis, otitis media, and skin infections.',
+  },
+  {
+    id: 'gen-domperidone',
+    genericName: 'Domperidone',
+    category: 'Peripheral Dopamine D2 Antagonist (Prokinetic)',
+    description: 'Relieves nausea, vomiting, feeling of fullness, dyspepsia, and gastric reflux.',
+  },
+  {
+    id: 'gen-vitamin-b-complex',
+    genericName: 'Vitamin B-Complex + Zinc',
+    category: 'Metabolic & Neuropathic Supplement',
+    description: 'Treats peripheral neuropathy, glossitis, stomatitis, and generalized physical debility.',
+  },
+  {
+    id: 'gen-iron-folic',
+    genericName: 'Iron Polymaltose Complex + Folic Acid + Zinc',
+    category: 'Hematinic (Anti-anemic)',
+    description: 'Prevents and treats iron deficiency anemia in pregnancy and chronic illness without gastric irritation.',
+  },
 ];
 
 export const INITIAL_BRAND_MEDICINES: BrandMedicine[] = [
@@ -270,6 +414,156 @@ export const INITIAL_BRAND_MEDICINES: BrandMedicine[] = [
   { id: 'b-thyronor-50', brandName: 'Thyronor 50', strength: '50mcg', form: 'Tablet', manufacturer: 'Renata Limited', unitPrice: 3.00, genericId: 'gen-levothyroxine' },
   { id: 'b-levotac-50', brandName: 'Levotac 50', strength: '50mcg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 2.50, genericId: 'gen-levothyroxine' },
   { id: 'b-euthyrox-50', brandName: 'Euthyrox 50', strength: '50mcg', form: 'Tablet', manufacturer: 'Radiant Pharmaceuticals (Merck)', unitPrice: 4.50, genericId: 'gen-levothyroxine' },
+  // Cetirizine 10mg
+  { id: 'b-alatrol-10', brandName: 'Alatrol 10', strength: '10mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 3.50, genericId: 'gen-cetirizine' },
+  { id: 'b-alatrol', brandName: 'Alatrol', strength: '10mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 3.50, genericId: 'gen-cetirizine' },
+  { id: 'b-atrizin-10', brandName: 'Atrizin 10', strength: '10mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 3.00, genericId: 'gen-cetirizine' },
+  { id: 'b-cetirin-10', brandName: 'Cetirin 10', strength: '10mg', form: 'Tablet', manufacturer: 'Beximco Pharmaceuticals Ltd.', unitPrice: 3.20, genericId: 'gen-cetirizine' },
+  { id: 'b-alarid-10', brandName: 'Alarid 10', strength: '10mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 3.00, genericId: 'gen-cetirizine' },
+
+  // Glimepiride
+  { id: 'b-amaryl-1', brandName: 'Amaryl 1', strength: '1mg', form: 'Tablet', manufacturer: 'Radiant Pharmaceuticals (Sanofi)', unitPrice: 10.00, genericId: 'gen-glimepiride' },
+  { id: 'b-amaryl', brandName: 'Amaryl', strength: '1mg', form: 'Tablet', manufacturer: 'Radiant Pharmaceuticals (Sanofi)', unitPrice: 10.00, genericId: 'gen-glimepiride' },
+  { id: 'b-diapride-1', brandName: 'Diapride 1', strength: '1mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 6.00, genericId: 'gen-glimepiride' },
+  { id: 'b-secrin-1', brandName: 'Secrin 1', strength: '1mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 5.50, genericId: 'gen-glimepiride' },
+  { id: 'b-glemep-1', brandName: 'Glemep 1', strength: '1mg', form: 'Tablet', manufacturer: 'Beximco Pharmaceuticals Ltd.', unitPrice: 5.50, genericId: 'gen-glimepiride' },
+  { id: 'b-amaryl-2', brandName: 'Amaryl 2', strength: '2mg', form: 'Tablet', manufacturer: 'Radiant Pharmaceuticals (Sanofi)', unitPrice: 16.00, genericId: 'gen-glimepiride' },
+  { id: 'b-diapride-2', brandName: 'Diapride 2', strength: '2mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 10.00, genericId: 'gen-glimepiride' },
+  { id: 'b-secrin-2', brandName: 'Secrin 2', strength: '2mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 9.00, genericId: 'gen-glimepiride' },
+
+  // Linagliptin + Metformin
+  { id: 'b-linaglip-m', brandName: 'Linaglip-M', strength: '2.5mg/500mg', form: 'Tablet', manufacturer: 'Beximco Pharmaceuticals Ltd.', unitPrice: 18.00, genericId: 'gen-linagliptin-metformin' },
+  { id: 'b-linaglip-m-25-500', brandName: 'Linaglip-M 2.5/500', strength: '2.5mg/500mg', form: 'Tablet', manufacturer: 'Beximco Pharmaceuticals Ltd.', unitPrice: 18.00, genericId: 'gen-linagliptin-metformin' },
+  { id: 'b-trulimax-m', brandName: 'Trulimax-M', strength: '2.5mg/500mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 18.00, genericId: 'gen-linagliptin-metformin' },
+  { id: 'b-linapex-m', brandName: 'Linapex-M', strength: '2.5mg/500mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 16.00, genericId: 'gen-linagliptin-metformin' },
+  { id: 'b-jentadueto', brandName: 'Jentadueto', strength: '2.5mg/500mg', form: 'Tablet', manufacturer: 'Boehringer Ingelheim', unitPrice: 35.00, genericId: 'gen-linagliptin-metformin' },
+
+  // Linagliptin
+  { id: 'b-linaglip-5', brandName: 'Linaglip 5', strength: '5mg', form: 'Tablet', manufacturer: 'Beximco Pharmaceuticals Ltd.', unitPrice: 18.00, genericId: 'gen-linagliptin' },
+  { id: 'b-trulimax-5', brandName: 'Trulimax 5', strength: '5mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 18.00, genericId: 'gen-linagliptin' },
+  { id: 'b-linapex-5', brandName: 'Linapex 5', strength: '5mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 15.00, genericId: 'gen-linagliptin' },
+  { id: 'b-trajenta-5', brandName: 'Trajenta 5', strength: '5mg', form: 'Tablet', manufacturer: 'Boehringer Ingelheim', unitPrice: 32.00, genericId: 'gen-linagliptin' },
+
+  // Tizanidine (Muscle Relaxant)
+  { id: 'b-relentus-2', brandName: 'Relentus 2', strength: '2mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 8.00, genericId: 'gen-tizanidine' },
+  { id: 'b-relentus', brandName: 'Relentus', strength: '2mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 8.00, genericId: 'gen-tizanidine' },
+  { id: 'b-tizan-2', brandName: 'Tizan 2', strength: '2mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 8.50, genericId: 'gen-tizanidine' },
+  { id: 'b-sirdalud-2', brandName: 'Sirdalud 2', strength: '2mg', form: 'Tablet', manufacturer: 'Novartis Bangladesh', unitPrice: 14.00, genericId: 'gen-tizanidine' },
+
+  // Naproxen + Esomeprazole
+  { id: 'b-naprosyn-plus', brandName: 'Naprosyn Plus', strength: '500mg+20mg', form: 'Tablet', manufacturer: 'Beximco Pharmaceuticals Ltd.', unitPrice: 15.00, genericId: 'gen-naproxen-esomeprazole' },
+  { id: 'b-anaprox-plus', brandName: 'Anaprox Plus', strength: '500mg+20mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 15.00, genericId: 'gen-naproxen-esomeprazole' },
+  { id: 'b-xenapro-plus', brandName: 'Xenapro Plus', strength: '500mg+20mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 13.50, genericId: 'gen-naproxen-esomeprazole' },
+  { id: 'b-napro-a-plus', brandName: 'Napro-A Plus', strength: '500mg+20mg', form: 'Tablet', manufacturer: 'The Acme Laboratories Ltd.', unitPrice: 13.00, genericId: 'gen-naproxen-esomeprazole' },
+
+  // Naproxen
+  { id: 'b-naprosyn-500', brandName: 'Naprosyn 500', strength: '500mg', form: 'Tablet', manufacturer: 'Beximco Pharmaceuticals Ltd.', unitPrice: 12.00, genericId: 'gen-naproxen' },
+  { id: 'b-anaprox-500', brandName: 'Anaprox 500', strength: '500mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 12.00, genericId: 'gen-naproxen' },
+  { id: 'b-xenapro-500', brandName: 'Xenapro 500', strength: '500mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 10.50, genericId: 'gen-naproxen' },
+
+  // Glucosamine + Chondroitin
+  { id: 'b-joinex-plus', brandName: 'Joinex Plus', strength: '250mg+200mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 16.00, genericId: 'gen-glucosamine-chondroitin' },
+  { id: 'b-cartilax-plus', brandName: 'Cartilax Plus', strength: '250mg+200mg', form: 'Tablet', manufacturer: 'Beximco Pharmaceuticals Ltd.', unitPrice: 16.00, genericId: 'gen-glucosamine-chondroitin' },
+  { id: 'b-arth-a-plus', brandName: 'Arth-A Plus', strength: '250mg+200mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 14.00, genericId: 'gen-glucosamine-chondroitin' },
+
+  // Losartan Additions
+  { id: 'b-lopo-50', brandName: 'Lopo 50', strength: '50mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 8.00, genericId: 'gen-losartan' },
+  { id: 'b-lopo', brandName: 'Lopo', strength: '50mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 8.00, genericId: 'gen-losartan' },
+
+  // Levothyroxine Additions
+  { id: 'b-thyrox-75', brandName: 'Thyrox 75', strength: '75mcg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 3.50, genericId: 'gen-levothyroxine' },
+  { id: 'b-thyrox', brandName: 'Thyrox', strength: '50mcg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 3.00, genericId: 'gen-levothyroxine' },
+  { id: 'b-thyronor-75', brandName: 'Thyronor 75', strength: '75mcg', form: 'Tablet', manufacturer: 'Renata Limited', unitPrice: 3.50, genericId: 'gen-levothyroxine' },
+  { id: 'b-levotac-75', brandName: 'Levotac 75', strength: '75mcg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 3.00, genericId: 'gen-levothyroxine' },
+  { id: 'b-thyrox-25', brandName: 'Thyrox 25', strength: '25mcg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 2.50, genericId: 'gen-levothyroxine' },
+  { id: 'b-thyrox-100', brandName: 'Thyrox 100', strength: '100mcg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 4.00, genericId: 'gen-levothyroxine' },
+
+  // Mirtazapine
+  { id: 'b-mirtaz-15', brandName: 'Mirtaz 15', strength: '15mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 15.00, genericId: 'gen-mirtazapine' },
+  { id: 'b-mirtaz', brandName: 'Mirtaz', strength: '15mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 15.00, genericId: 'gen-mirtazapine' },
+  { id: 'b-mirzaz-15', brandName: 'Mirzaz 15', strength: '15mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 13.50, genericId: 'gen-mirtazapine' },
+  { id: 'b-mirtazen-15', brandName: 'Mirtazen 15', strength: '15mg', form: 'Tablet', manufacturer: 'Renata Limited', unitPrice: 14.00, genericId: 'gen-mirtazapine' },
+
+  // Prednisolone
+  { id: 'b-delta-5', brandName: 'Delta 5', strength: '5mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 2.50, genericId: 'gen-prednisolone' },
+  { id: 'b-delta', brandName: 'Delta', strength: '5mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 2.50, genericId: 'gen-prednisolone' },
+  { id: 'b-deltasone-5', brandName: 'Deltasone 5', strength: '5mg', form: 'Tablet', manufacturer: 'Beximco Pharmaceuticals Ltd.', unitPrice: 2.50, genericId: 'gen-prednisolone' },
+  { id: 'b-prednil-5', brandName: 'Prednil 5', strength: '5mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 2.00, genericId: 'gen-prednisolone' },
+  { id: 'b-delta-20', brandName: 'Delta 20', strength: '20mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 8.00, genericId: 'gen-prednisolone' },
+
+  // Testosterone
+  { id: 'b-testarem-250', brandName: 'Testarem 250', strength: '250mg', form: 'Injection', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 280.00, genericId: 'gen-testosterone' },
+  { id: 'b-testarem', brandName: 'Testarem', strength: '250mg', form: 'Injection', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 280.00, genericId: 'gen-testosterone' },
+  { id: 'b-teston-250', brandName: 'Teston 250', strength: '250mg', form: 'Injection', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 290.00, genericId: 'gen-testosterone' },
+  { id: 'b-sustanon-250', brandName: 'Sustanon 250', strength: '250mg', form: 'Injection', manufacturer: 'Organon Bangladesh', unitPrice: 450.00, genericId: 'gen-testosterone' },
+
+  // Multivitamin + Minerals / Antioxidants
+  { id: 'b-povital', brandName: 'Povital', strength: 'Standard Formula', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 8.00, genericId: 'gen-multivitamin-minerals' },
+  { id: 'b-filwel-gold', brandName: 'Filwel Gold', strength: 'Standard Formula', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 8.50, genericId: 'gen-multivitamin-minerals' },
+  { id: 'b-gevit', brandName: 'Gevit', strength: 'Standard Formula', form: 'Tablet', manufacturer: 'Beximco Pharmaceuticals Ltd.', unitPrice: 7.50, genericId: 'gen-multivitamin-minerals' },
+  { id: 'b-aristovit-m', brandName: 'Aristovit M', strength: 'Standard Formula', form: 'Tablet', manufacturer: 'Aristopharma Ltd.', unitPrice: 6.50, genericId: 'gen-multivitamin-minerals' },
+
+  // Bisoprolol
+  { id: 'b-bisocor-25', brandName: 'Bisocor 2.5', strength: '2.5mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 7.00, genericId: 'gen-bisoprolol' },
+  { id: 'b-bisonorm-25', brandName: 'Bisonorm 2.5', strength: '2.5mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 6.50, genericId: 'gen-bisoprolol' },
+  { id: 'b-cardicor-25', brandName: 'Cardicor 2.5', strength: '2.5mg', form: 'Tablet', manufacturer: 'Beximco Pharmaceuticals Ltd.', unitPrice: 6.50, genericId: 'gen-bisoprolol' },
+  { id: 'b-bisocor-5', brandName: 'Bisocor 5', strength: '5mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 12.00, genericId: 'gen-bisoprolol' },
+
+  // Telmisartan
+  { id: 'b-telma-40', brandName: 'Telma 40', strength: '40mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 10.00, genericId: 'gen-telmisartan' },
+  { id: 'b-telsartan-40', brandName: 'Telsartan 40', strength: '40mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 9.00, genericId: 'gen-telmisartan' },
+  { id: 'b-telmikast-40', brandName: 'Telmikast 40', strength: '40mg', form: 'Tablet', manufacturer: 'Beximco Pharmaceuticals Ltd.', unitPrice: 9.50, genericId: 'gen-telmisartan' },
+
+  // Ketorolac
+  { id: 'b-torax-10', brandName: 'Torax 10', strength: '10mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 12.00, genericId: 'gen-ketorolac' },
+  { id: 'b-rolac-10', brandName: 'Rolac 10', strength: '10mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 11.00, genericId: 'gen-ketorolac' },
+  { id: 'b-ketonic-10', brandName: 'Ketonic 10', strength: '10mg', form: 'Tablet', manufacturer: 'Beximco Pharmaceuticals Ltd.', unitPrice: 11.00, genericId: 'gen-ketorolac' },
+
+  // Aceclofenac
+  { id: 'b-flexi-100', brandName: 'Flexi 100', strength: '100mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 5.50, genericId: 'gen-aceclofenac' },
+  { id: 'b-aceclo-100', brandName: 'Aceclo 100', strength: '100mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 5.00, genericId: 'gen-aceclofenac' },
+  { id: 'b-mervan-100', brandName: 'Mervan 100', strength: '100mg', form: 'Tablet', manufacturer: 'Beximco Pharmaceuticals Ltd.', unitPrice: 5.00, genericId: 'gen-aceclofenac' },
+
+  // Ciprofloxacin
+  { id: 'b-ciprocin-500', brandName: 'Ciprocin 500', strength: '500mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 15.00, genericId: 'gen-ciprofloxacin' },
+  { id: 'b-neofloxin-500', brandName: 'Neofloxin 500', strength: '500mg', form: 'Tablet', manufacturer: 'Beximco Pharmaceuticals Ltd.', unitPrice: 15.00, genericId: 'gen-ciprofloxacin' },
+  { id: 'b-cipro-a-500', brandName: 'Cipro-A 500', strength: '500mg', form: 'Tablet', manufacturer: 'The Acme Laboratories Ltd.', unitPrice: 13.50, genericId: 'gen-ciprofloxacin' },
+  { id: 'b-flontin-500', brandName: 'Flontin 500', strength: '500mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 13.00, genericId: 'gen-ciprofloxacin' },
+
+  // Cefuroxime
+  { id: 'b-kilbac-500', brandName: 'Kilbac 500', strength: '500mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 50.00, genericId: 'gen-cefuroxime' },
+  { id: 'b-ceftin-500', brandName: 'Ceftin 500', strength: '500mg', form: 'Tablet', manufacturer: 'Radiant Pharmaceuticals (GSK)', unitPrice: 65.00, genericId: 'gen-cefuroxime' },
+  { id: 'b-cerox-a-500', brandName: 'Cerox-A 500', strength: '500mg', form: 'Tablet', manufacturer: 'The Acme Laboratories Ltd.', unitPrice: 48.00, genericId: 'gen-cefuroxime' },
+  { id: 'b-cefur-500', brandName: 'Cefur 500', strength: '500mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 50.00, genericId: 'gen-cefuroxime' },
+
+  // Domperidone
+  { id: 'b-motigut-10', brandName: 'Motigut 10', strength: '10mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 3.50, genericId: 'gen-domperidone' },
+  { id: 'b-omidon-10', brandName: 'Omidon 10', strength: '10mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 3.00, genericId: 'gen-domperidone' },
+  { id: 'b-deflux-10', brandName: 'Deflux 10', strength: '10mg', form: 'Tablet', manufacturer: 'Beximco Pharmaceuticals Ltd.', unitPrice: 3.00, genericId: 'gen-domperidone' },
+  { id: 'b-vomidon-10', brandName: 'Vomidon 10', strength: '10mg', form: 'Tablet', manufacturer: 'Renata Limited', unitPrice: 3.20, genericId: 'gen-domperidone' },
+
+  // Clonazepam
+  { id: 'b-disopan-05', brandName: 'Disopan 0.5', strength: '0.5mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 6.00, genericId: 'gen-clonazepam' },
+  { id: 'b-rivotril-05', brandName: 'Rivotril 0.5', strength: '0.5mg', form: 'Tablet', manufacturer: 'Radiant Pharmaceuticals (Roche)', unitPrice: 9.00, genericId: 'gen-clonazepam' },
+  { id: 'b-epitra-05', brandName: 'Epitra 0.5', strength: '0.5mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 5.50, genericId: 'gen-clonazepam' },
+  { id: 'b-clanza-05', brandName: 'Clanza 0.5', strength: '0.5mg', form: 'Tablet', manufacturer: 'Beximco Pharmaceuticals Ltd.', unitPrice: 5.50, genericId: 'gen-clonazepam' },
+
+  // Doxophylline
+  { id: 'b-dexpoten-400', brandName: 'Dexpoten 400', strength: '400mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 10.00, genericId: 'gen-doxophylline' },
+  { id: 'b-doxoma-400', brandName: 'Doxoma 400', strength: '400mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 9.00, genericId: 'gen-doxophylline' },
+  { id: 'b-pulmofor-400', brandName: 'Pulmofor 400', strength: '400mg', form: 'Tablet', manufacturer: 'Beximco Pharmaceuticals Ltd.', unitPrice: 9.50, genericId: 'gen-doxophylline' },
+
+  // Vitamin B Complex + Zinc
+  { id: 'b-bicozin', brandName: 'Bicozin', strength: 'Standard Formula', form: 'Syrup / Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 6.00, genericId: 'gen-vitamin-b-complex' },
+  { id: 'b-becovon', brandName: 'Becovon', strength: 'Standard Formula', form: 'Tablet', manufacturer: 'Beximco Pharmaceuticals Ltd.', unitPrice: 5.50, genericId: 'gen-vitamin-b-complex' },
+  { id: 'b-neobion', brandName: 'Neobion', strength: 'Standard Formula', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 5.00, genericId: 'gen-vitamin-b-complex' },
+  { id: 'b-aristovit-b', brandName: 'Aristovit B', strength: 'Standard Formula', form: 'Tablet', manufacturer: 'Aristopharma Ltd.', unitPrice: 4.50, genericId: 'gen-vitamin-b-complex' },
+
+  // Iron + Folic Acid
+  { id: 'b-ferimax', brandName: 'Ferimax', strength: 'Standard Formula', form: 'Capsule', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 9.00, genericId: 'gen-iron-folic' },
+  { id: 'b-fefol-ci', brandName: 'Fefol-CI', strength: 'Standard Formula', form: 'Capsule', manufacturer: 'Beximco Pharmaceuticals Ltd.', unitPrice: 9.00, genericId: 'gen-iron-folic' },
+  { id: 'b-ipec-plus', brandName: 'Ipec-Plus', strength: 'Standard Formula', form: 'Capsule', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 8.00, genericId: 'gen-iron-folic' },
+  { id: 'b-aristofer', brandName: 'Aristofer', strength: 'Standard Formula', form: 'Capsule', manufacturer: 'Aristopharma Ltd.', unitPrice: 7.50, genericId: 'gen-iron-folic' },
 ];
 
 export interface SamplePreset {
