@@ -37,8 +37,24 @@ export default function ReviewPage() {
       if (rx.parsedItems.length > 0) {
         setSelectedItemId(rx.parsedItems[0].id);
       }
+      setLoading(false);
+    } else {
+      fetch('/api/prescriptions')
+        .then((res) => res.json())
+        .then((data) => {
+          const found = data.prescriptions?.find((p: any) => p.id === id);
+          if (found) {
+            setPrescription(found);
+            const foundItems = found.parsedItems || [];
+            setItems(foundItems);
+            if (foundItems.length > 0) {
+              setSelectedItemId(foundItems[0].id);
+            }
+          }
+        })
+        .catch((err) => console.warn('Could not fetch prescription:', err))
+        .finally(() => setLoading(false));
     }
-    setLoading(false);
   }, [id]);
 
   const handleUpdateItems = (updatedItems: ParsedMedicineItem[]) => {

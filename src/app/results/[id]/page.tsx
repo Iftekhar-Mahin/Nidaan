@@ -33,8 +33,19 @@ export default function ResultsPage() {
     const rx = getPrescriptionById(id);
     if (rx) {
       setPrescription(rx);
+      setLoading(false);
+    } else {
+      fetch('/api/prescriptions')
+        .then((res) => res.json())
+        .then((data) => {
+          const found = data.prescriptions?.find((p: any) => p.id === id);
+          if (found) {
+            setPrescription(found);
+          }
+        })
+        .catch((err) => console.warn('Could not fetch prescription:', err))
+        .finally(() => setLoading(false));
     }
-    setLoading(false);
   }, [id]);
 
   if (loading) {
