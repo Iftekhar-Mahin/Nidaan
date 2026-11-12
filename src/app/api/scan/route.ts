@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { parsePrescriptionText } from '@/lib/ocr/parser';
 import { INITIAL_BRAND_MEDICINES } from '@/lib/sample-data';
+export const maxDuration = 60;
 
 const OCR_SERVICE_URL = process.env.OCR_SERVICE_URL || 'http://localhost:8001';
 const GEMINI_API_KEY  = process.env.GEMINI_API_KEY  || '';
@@ -20,22 +21,22 @@ Examine this prescription image carefully.
 Extract all prescribed medicine lines as written by the physician.
 For each medicine line, extract the complete line including:
 - Formulation (Tab, Cap, Syp, Inj, Drop, etc.)
-- Brand or generic name (e.g., Napa Extra, Seclo, Moxaclav, Monas)
-- Strength (e.g., 500mg, 20mg, 10mg)
-- Dosage schedule (e.g., 1+0+1, 1-0-1, 1+1+1)
-- Duration (e.g., 7 days, 14 days, 1 month)
-- Instructions (e.g., pc, ac, after meal, before meal, খাওয়ার আগে, খাওয়ার পরে)
+- Brand or generic name (e.g., Napa Extra, Seclo, Moxaclav, Monas, Thyrox, Alatrol, Relentus, Naprosyn plus, Calbo-D, Lopo, Joinex plus, Amaryl, Linaglip-M, Povital, Mirtaz, Delta, Testarem)
+- Strength (e.g., 500mg, 20mg, 10mg, 75mcg, 2.5/500, 250mg)
+- Dosage schedule (e.g., 1+0+1, 1-0-1, 1+1+1, 1+0+0, 0+0+1)
+- Duration (e.g., 7 days, 14 days, 1 month, 2 months, 4 months, চলবে)
+- Instructions (e.g., pc, ac, after meal, before meal, খাওয়ার আগে, খাওয়ার পরে, খালি পেটে, ভরা পেটে, রাত্রে)
 
 Ignore hospital header, doctor information, patient personal vitals (BP, weight, pulse), and general advice.
 
-Return strictly a JSON array of strings or objects with a "text" field, for example:
+Return strictly a JSON array of strings, for example:
 [
   "Tab Napa Extra 500/65mg 1+0+1 7 days pc",
   "Cap Seclo 20mg 1-0-1 14 days ac"
 ]
 Output ONLY the raw JSON array without markdown formatting.`;
 
-  const models = ['gemini-3.5-flash', 'gemini-flash-latest', 'gemini-3.8-flash'];
+  const models = ['gemini-3.5-flash', 'gemini-3.8-flash'];
 
   for (const model of models) {
     try {
@@ -61,18 +62,18 @@ Output ONLY the raw JSON array without markdown formatting.`;
             temperature: 0.1,
           },
         }),
-        signal: AbortSignal.timeout(25000),
+        signal: AbortSignal.timeout(28000),
       });
 
       if (!res.ok) continue;
 
       const data = await res.json();
       let rawText = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '';
-      if (rawText.startsWith('```')) {
-        rawText = rawText.replace(/^```(?:json)?\s*/i, '').replace(/```$/i, '').trim();
-      }
+      
+      const jsonMatch = rawText.match(/\[[\s\S]*\]/);
+      if (!jsonMatch) continue;
 
-      const parsed = JSON.parse(rawText);
+      const parsed = JSON.parse(jsonMatch[0]);
       if (Array.isArray(parsed) && parsed.length > 0) {
         return parsed
           .map((item: any) => {
@@ -82,7 +83,7 @@ Output ONLY the raw JSON array without markdown formatting.`;
           .filter((text: string) => text.length > 2)
           .map((text: string) => ({
             text,
-            confidence: 0.94,
+            confidence: 0.96,
             source: `gemini-vision (${model})`,
             box: null,
           }));
