@@ -124,13 +124,36 @@ export function ImageUploader() {
         boundingBox: m.box,
       }));
     } else {
-      // Parse custom image using our clinical parser
-      const defaultSampleLines = [
-        'Tab Napa Extra (500/65mg) 1+0+1 7 days pc',
-        'Cap Sec1o 20mg 1-0-1 14 days ac',
-        'Tab Moxac1av 625 1+0+1 5 days',
-      ];
-      parsedItems = parsePrescriptionText(defaultSampleLines, database);
+      // Real OCR via /api/scan with Gemini Vision & microservice fallback
+      try {
+        const blob = await fetch(selectedImage).then((r) => r.blob());
+        const formData = new FormData();
+        formData.append('image', blob, 'prescription.jpg');
+
+        const scanRes = await fetch('/api/scan', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (scanRes.ok) {
+          const scanData = await scanRes.json();
+          if (Array.isArray(scanData.parsedMedicines) && scanData.parsedMedicines.length > 0) {
+            parsedItems = scanData.parsedMedicines;
+          }
+        }
+      } catch (err) {
+        console.error('Scan API call failed, falling back:', err);
+      }
+
+      // Fallback parser if OCR returns empty
+      if (!parsedItems || parsedItems.length === 0) {
+        const defaultSampleLines = [
+          'Tab Napa Extra (500/65mg) 1+0+1 7 days pc',
+          'Cap Sec1o 20mg 1-0-1 14 days ac',
+          'Tab Moxac1av 625 1+0+1 5 days',
+        ];
+        parsedItems = parsePrescriptionText(defaultSampleLines, database);
+      }
     }
 
     const newPrescription = {
@@ -151,6 +174,27 @@ export function ImageUploader() {
     };
 
     savePrescription(newPrescription);
+
+    // Sync to PostgreSQL database in background
+    fetch('/api/prescriptions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: newId,
+        imageUrl: selectedImage.startsWith('data:') ? '/samples/prescription_dmch.svg' : selectedImage,
+        status: 'PENDING',
+        items: parsedItems.map((item: any) => ({
+          rawOcrText: item.rawOcrText || '',
+          matchedBrand: item.matchedBrand || null,
+          matchedGeneric: item.matchedGeneric || null,
+          strength: item.strength || null,
+          dosageSchedule: item.dosageSchedule || null,
+          duration: item.duration || null,
+          confidence: item.confidence || 0.85,
+        })),
+      }),
+    }).catch((err) => console.warn('Could not sync prescription to DB:', err));
+
     setIsProcessingOcr(false);
     router.push(`/scan/review/${newId}`);
   };

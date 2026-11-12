@@ -23,7 +23,19 @@ export default function DashboardPage() {
   const [prescriptions, setPrescriptions] = useState<PrescriptionRecord[]>([]);
 
   useEffect(() => {
-    setPrescriptions(getAllPrescriptions());
+    // Immediate load from local store
+    const local = getAllPrescriptions();
+    setPrescriptions(local);
+
+    // Sync with live PostgreSQL database
+    fetch('/api/prescriptions')
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data.prescriptions) && data.prescriptions.length > 0) {
+          setPrescriptions(data.prescriptions);
+        }
+      })
+      .catch((err) => console.warn('Using local prescriptions cache:', err));
   }, []);
 
   return (

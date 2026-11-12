@@ -28,6 +28,18 @@ export function DrugManager() {
   const [searchQuery, setSearchQuery] = useState('');
   const [manufacturerFilter, setManufacturerFilter] = useState('ALL');
 
+  // Sync with live PostgreSQL database on mount
+  React.useEffect(() => {
+    fetch('/api/drugs')
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data.drugs) && data.drugs.length > 0) {
+          setBrands(data.drugs);
+        }
+      })
+      .catch((err) => console.warn('Could not fetch live drugs, using local cache:', err));
+  }, []);
+
   const [modalOpen, setModalOpen] = useState(false);
   const [editingDrug, setEditingDrug] = useState<BrandMedicine | null>(null);
 
@@ -88,7 +100,7 @@ export function DrugManager() {
     setModalOpen(true);
   };
 
-  const handleSaveDrug = (e: React.FormEvent) => {
+  const handleSaveDrug = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formBrandName || !formGenericId) return;
 
@@ -103,8 +115,27 @@ export function DrugManager() {
     };
 
     saveBrandMedicine(drugToSave);
-    setBrands(getAllBrandMedicines());
+    setBrands((prev) => {
+      const idx = prev.findIndex((b) => b.id === drugToSave.id);
+      if (idx >= 0) {
+        const copy = [...prev];
+        copy[idx] = drugToSave;
+        return copy;
+      }
+      return [drugToSave, ...prev];
+    });
     setModalOpen(false);
+
+    // Persist to PostgreSQL database
+    try {
+      await fetch('/api/drugs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(drugToSave),
+      });
+    } catch (err) {
+      console.warn('Could not persist drug to database:', err);
+    }
   };
 
   const handleDelete = (id: string) => {
