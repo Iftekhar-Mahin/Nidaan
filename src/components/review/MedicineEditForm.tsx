@@ -45,8 +45,9 @@ export function MedicineEditForm({
 
     // If brand name changed, recalculate generic mapping
     if (field === 'matchedBrand') {
+      const brandVal = String(value || '').toLowerCase().trim();
       const match = allBrands.find(
-        (b) => b.brandName.toLowerCase() === value.toLowerCase()
+        (b) => (b.brandName || '').toLowerCase() === brandVal
       );
       if (match) {
         updated[index].matchedGeneric = match.generic?.genericName || updated[index].matchedGeneric;

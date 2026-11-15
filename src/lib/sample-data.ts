@@ -260,10 +260,28 @@ export const INITIAL_GENERIC_DRUGS: GenericDrug[] = [
     description: 'Treats peripheral neuropathy, glossitis, stomatitis, and generalized physical debility.',
   },
   {
-    id: 'gen-iron-folic',
-    genericName: 'Iron Polymaltose Complex + Folic Acid + Zinc',
-    category: 'Hematinic (Anti-anemic)',
-    description: 'Prevents and treats iron deficiency anemia in pregnancy and chronic illness without gastric irritation.',
+    id: 'gen-gliclazide',
+    genericName: 'Gliclazide',
+    category: 'Second-Generation Sulfonylurea (Antidiabetic)',
+    description: 'Stimulates pancreatic beta cell insulin secretion and restores first-phase insulin release in type 2 diabetes mellitus.',
+  },
+  {
+    id: 'gen-vildagliptin-metformin',
+    genericName: 'Vildagliptin + Metformin Hydrochloride',
+    category: 'DPP-4 Inhibitor + Biguanide Combination (Antidiabetic)',
+    description: 'Dual antidiabetic combination addressing both insulin deficiency and peripheral insulin resistance.',
+  },
+  {
+    id: 'gen-empagliflozin',
+    genericName: 'Empagliflozin',
+    category: 'SGLT2 Inhibitor (Antidiabetic & Cardiorenal)',
+    description: 'Reduces renal glucose reabsorption, lowering blood glucose and providing proven cardiorenal protection.',
+  },
+  {
+    id: 'gen-bisoprolol-amlodipine',
+    genericName: 'Bisoprolol Hemifumarate + Amlodipine Besilate',
+    category: 'Beta-Blocker + Calcium Channel Blocker (Antihypertensive)',
+    description: 'Complementary dual antihypertensive reducing cardiac workload and peripheral vascular resistance.',
   },
 ];
 
@@ -564,6 +582,51 @@ export const INITIAL_BRAND_MEDICINES: BrandMedicine[] = [
   { id: 'b-fefol-ci', brandName: 'Fefol-CI', strength: 'Standard Formula', form: 'Capsule', manufacturer: 'Beximco Pharmaceuticals Ltd.', unitPrice: 9.00, genericId: 'gen-iron-folic' },
   { id: 'b-ipec-plus', brandName: 'Ipec-Plus', strength: 'Standard Formula', form: 'Capsule', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 8.00, genericId: 'gen-iron-folic' },
   { id: 'b-aristofer', brandName: 'Aristofer', strength: 'Standard Formula', form: 'Capsule', manufacturer: 'Aristopharma Ltd.', unitPrice: 7.50, genericId: 'gen-iron-folic' },
+
+  // Gliclazide 80mg
+  { id: 'b-dimerol-80', brandName: 'Dimerol 80', strength: '80mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 8.00, genericId: 'gen-gliclazide' },
+  { id: 'b-dimerol', brandName: 'Dimerol', strength: '80mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 8.00, genericId: 'gen-gliclazide' },
+  { id: 'b-diamicron-80', brandName: 'Diamicron 80', strength: '80mg', form: 'Tablet', manufacturer: 'Renata Limited / Servier', unitPrice: 12.00, genericId: 'gen-gliclazide' },
+  { id: 'b-comprid-80', brandName: 'Comprid 80', strength: '80mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 8.00, genericId: 'gen-gliclazide' },
+  { id: 'b-glizid-80', brandName: 'Glizid 80', strength: '80mg', form: 'Tablet', manufacturer: 'Beximco Pharmaceuticals Ltd.', unitPrice: 8.00, genericId: 'gen-gliclazide' },
+  { id: 'b-gluconor-80', brandName: 'Gluconor 80', strength: '80mg', form: 'Tablet', manufacturer: 'Healthcare Pharmaceuticals Ltd.', unitPrice: 7.50, genericId: 'gen-gliclazide' },
+
+  // Vildagliptin + Metformin Hydrochloride 50/500mg
+  { id: 'b-dialiptin-m', brandName: 'Dialiptin-M', strength: '50mg/500mg', form: 'Tablet', manufacturer: 'Eskayef Pharmaceuticals Ltd.', unitPrice: 20.00, genericId: 'gen-vildagliptin-metformin' },
+  { id: 'b-dialiptin-m-50-500', brandName: 'Dialiptin-M 50/500', strength: '50mg/500mg', form: 'Tablet', manufacturer: 'Eskayef Pharmaceuticals Ltd.', unitPrice: 20.00, genericId: 'gen-vildagliptin-metformin' },
+  { id: 'b-galvus-met-50-500', brandName: 'Galvus Met 50/500', strength: '50mg/500mg', form: 'Tablet', manufacturer: 'Novartis Bangladesh Ltd.', unitPrice: 32.00, genericId: 'gen-vildagliptin-metformin' },
+  { id: 'b-vildamet-50-500', brandName: 'Vildamet 50/500', strength: '50mg/500mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 20.00, genericId: 'gen-vildagliptin-metformin' },
+  { id: 'b-vildas-m-50-500', brandName: 'Vildas-M 50/500', strength: '50mg/500mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 18.00, genericId: 'gen-vildagliptin-metformin' },
+  { id: 'b-vilda-m-50-500', brandName: 'Vilda-M 50/500', strength: '50mg/500mg', form: 'Tablet', manufacturer: 'Beximco Pharmaceuticals Ltd.', unitPrice: 19.00, genericId: 'gen-vildagliptin-metformin' },
+
+  // Empagliflozin 10mg
+  { id: 'b-empatab-10', brandName: 'Empatab 10', strength: '10mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 25.00, genericId: 'gen-empagliflozin' },
+  { id: 'b-empatab', brandName: 'Empatab', strength: '10mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 25.00, genericId: 'gen-empagliflozin' },
+  { id: 'b-jardiance-10', brandName: 'Jardiance 10', strength: '10mg', form: 'Tablet', manufacturer: 'Boehringer Ingelheim', unitPrice: 65.00, genericId: 'gen-empagliflozin' },
+  { id: 'b-emaglim-10', brandName: 'Emaglim 10', strength: '10mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 25.00, genericId: 'gen-empagliflozin' },
+  { id: 'b-empa-10', brandName: 'Empa 10', strength: '10mg', form: 'Tablet', manufacturer: 'Beximco Pharmaceuticals Ltd.', unitPrice: 24.00, genericId: 'gen-empagliflozin' },
+  { id: 'b-empalip-10', brandName: 'Empalip 10', strength: '10mg', form: 'Tablet', manufacturer: 'Healthcare Pharmaceuticals Ltd.', unitPrice: 25.00, genericId: 'gen-empagliflozin' },
+
+  // Bisoprolol + Amlodipine 2.5/5mg
+  { id: 'b-bisopro-a-25-5', brandName: 'Bisopro-A', strength: '2.5mg/5mg', form: 'Tablet', manufacturer: 'Eskayef Pharmaceuticals Ltd.', unitPrice: 10.00, genericId: 'gen-bisoprolol-amlodipine' },
+  { id: 'b-bisopro-25-5', brandName: 'Bisopro (2.5/5mg)', strength: '2.5mg/5mg', form: 'Tablet', manufacturer: 'Eskayef Pharmaceuticals Ltd.', unitPrice: 10.00, genericId: 'gen-bisoprolol-amlodipine' },
+  { id: 'b-bisopro', brandName: 'Bisopro', strength: '2.5mg/5mg', form: 'Tablet', manufacturer: 'Eskayef Pharmaceuticals Ltd.', unitPrice: 10.00, genericId: 'gen-bisoprolol-amlodipine' },
+  { id: 'b-bisocor-am-25-5', brandName: 'Bisocor-AM 2.5/5', strength: '2.5mg/5mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 10.50, genericId: 'gen-bisoprolol-amlodipine' },
+  { id: 'b-bisonorm-am-25-5', brandName: 'Bisonorm-AM 2.5/5', strength: '2.5mg/5mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 10.00, genericId: 'gen-bisoprolol-amlodipine' },
+  { id: 'b-lodipin-b-25-5', brandName: 'Lodipin-B 2.5/5', strength: '2.5mg/5mg', form: 'Tablet', manufacturer: 'Beximco Pharmaceuticals Ltd.', unitPrice: 10.00, genericId: 'gen-bisoprolol-amlodipine' },
+
+  // Levothyroxine Sodium (add 175mcg)
+  { id: 'b-thyrox-175', brandName: 'Thyrox 175', strength: '175mcg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 5.50, genericId: 'gen-levothyroxine' },
+  { id: 'b-thyrox-175mcg', brandName: 'Thyrox 175mcg', strength: '175mcg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 5.50, genericId: 'gen-levothyroxine' },
+  { id: 'b-eltroxin-175', brandName: 'Eltroxin 175', strength: '175mcg', form: 'Tablet', manufacturer: 'GlaxoSmithKline', unitPrice: 7.50, genericId: 'gen-levothyroxine' },
+  { id: 'b-thyronor-175', brandName: 'Thyronor 175', strength: '175mcg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 5.00, genericId: 'gen-levothyroxine' },
+
+  // Rosuvastatin 5mg
+  { id: 'b-rosutin-5', brandName: 'Rosutin 5', strength: '5mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 10.00, genericId: 'gen-rosuvastatin' },
+  { id: 'b-rosutin-generic-5', brandName: 'Rosutin', strength: '5mg', form: 'Tablet', manufacturer: 'Incepta Pharmaceuticals Ltd.', unitPrice: 10.00, genericId: 'gen-rosuvastatin' },
+  { id: 'b-rasuva-5', brandName: 'Rasuva 5', strength: '5mg', form: 'Tablet', manufacturer: 'Square Pharmaceuticals Ltd.', unitPrice: 12.00, genericId: 'gen-rosuvastatin' },
+  { id: 'b-rosuva-5', brandName: 'Rosuva 5', strength: '5mg', form: 'Tablet', manufacturer: 'Beximco Pharmaceuticals Ltd.', unitPrice: 12.00, genericId: 'gen-rosuvastatin' },
+  { id: 'b-crestor-5', brandName: 'Crestor 5', strength: '5mg', form: 'Tablet', manufacturer: 'AstraZeneca', unitPrice: 35.00, genericId: 'gen-rosuvastatin' },
 ];
 
 export interface SamplePreset {

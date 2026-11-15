@@ -69,8 +69,30 @@ async function main() {
   }
   console.log(`✅ Seeded ${INITIAL_GENERIC_DRUGS.length} generic compounds.`);
 
+  // Build map of sample generic IDs to actual database IDs
+  const allDbGenerics = await prisma.genericDrug.findMany();
+  const genericIdMap = new Map<string, string>();
+
+  for (const gen of INITIAL_GENERIC_DRUGS) {
+    const dbGen = allDbGenerics.find(
+      (g) => g.genericName.toLowerCase() === gen.genericName.toLowerCase() || g.id === gen.id
+    );
+    if (dbGen) {
+      genericIdMap.set(gen.id, dbGen.id);
+    }
+  }
+
   // Seed Brand Medicines
+  let seededBrandCount = 0;
   for (const brand of INITIAL_BRAND_MEDICINES) {
+    const resolvedGenericId = genericIdMap.get(brand.genericId) || brand.genericId;
+    const genericExists = allDbGenerics.some((g) => g.id === resolvedGenericId);
+
+    if (!genericExists) {
+      console.warn(`[Seed] Skipping ${brand.brandName} - generic ${brand.genericId} not found in DB`);
+      continue;
+    }
+
     await prisma.brandMedicine.upsert({
       where: { id: brand.id },
       update: {
@@ -79,7 +101,7 @@ async function main() {
         form: brand.form,
         manufacturer: brand.manufacturer,
         unitPrice: brand.unitPrice,
-        genericId: brand.genericId,
+        genericId: resolvedGenericId,
       },
       create: {
         id: brand.id,
@@ -88,11 +110,12 @@ async function main() {
         form: brand.form,
         manufacturer: brand.manufacturer,
         unitPrice: brand.unitPrice,
-        genericId: brand.genericId,
+        genericId: resolvedGenericId,
       },
     });
+    seededBrandCount++;
   }
-  console.log(`✅ Seeded ${INITIAL_BRAND_MEDICINES.length} brand medicines.`);
+  console.log(`✅ Seeded ${seededBrandCount} brand medicines.`);
 
   // Seed sample prescription and items
   const demoPrescription = await prisma.prescription.upsert({

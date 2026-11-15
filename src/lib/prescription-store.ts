@@ -70,17 +70,53 @@ export function deleteBrandMedicine(id: string): void {
 }
 
 /**
+ * Safe localStorage setter with automatic quota exhaustion recovery
+ */
+function safeSetStorage(key: string, items: any[]): void {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.setItem(key, JSON.stringify(items));
+  } catch (e: any) {
+    console.warn('[Storage] Quota exceeded or error writing to localStorage, evicting heavy image payloads:', e);
+    try {
+      // Step 1: Strip base64 imageUrls from older items
+      const stripped = items.map((p: any, idx: number) => {
+        if (idx > 0 && typeof p.imageUrl === 'string' && p.imageUrl.startsWith('data:')) {
+          return { ...p, imageUrl: '/samples/prescription_dmch.svg' };
+        }
+        return p;
+      });
+      localStorage.setItem(key, JSON.stringify(stripped));
+    } catch (e2) {
+      try {
+        // Step 2: Keep only the 3 most recent prescriptions without base64 data URLs
+        const minimalist = items.slice(0, 3).map((p: any) => ({
+          ...p,
+          imageUrl: p.imageUrl?.startsWith('data:') ? '/samples/prescription_dmch.svg' : p.imageUrl,
+        }));
+        localStorage.setItem(key, JSON.stringify(minimalist));
+      } catch (e3) {
+        console.error('[Storage] Critical storage failure, skipping local persistence:', e3);
+      }
+    }
+  }
+}
+
+/**
  * Gets all prescriptions
  */
 export function getAllPrescriptions(): PrescriptionRecord[] {
   if (typeof window === 'undefined') return INITIAL_PRESCRIPTIONS;
-  const saved = localStorage.getItem(STORAGE_KEY);
-  if (saved) {
-    try {
-      return JSON.parse(saved);
-    } catch (e) {
-      console.error('Error reading prescriptions:', e);
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed;
+      }
     }
+  } catch (e) {
+    console.error('Error reading prescriptions from localStorage:', e);
   }
   return INITIAL_PRESCRIPTIONS;
 }
@@ -89,24 +125,32 @@ export function getAllPrescriptions(): PrescriptionRecord[] {
  * Gets a single prescription by ID
  */
 export function getPrescriptionById(id: string): PrescriptionRecord | null {
-  const all = getAllPrescriptions();
-  return all.find((p) => p.id === id) || null;
+  try {
+    const all = getAllPrescriptions();
+    return all.find((p) => p.id === id) || null;
+  } catch {
+    return null;
+  }
 }
 
 /**
- * Saves or updates a prescription
+ * Saves or updates a prescription safely
  */
 export function savePrescription(prescription: PrescriptionRecord): void {
-  const current = getAllPrescriptions();
-  const index = current.findIndex((p) => p.id === prescription.id);
-  let updated: PrescriptionRecord[];
-  if (index >= 0) {
-    updated = [...current];
-    updated[index] = prescription;
-  } else {
-    updated = [prescription, ...current];
+  try {
+    const current = getAllPrescriptions();
+    const index = current.findIndex((p) => p.id === prescription.id);
+    let updated: PrescriptionRecord[];
+    if (index >= 0) {
+      updated = [...current];
+      updated[index] = prescription;
+    } else {
+      updated = [prescription, ...current];
+    }
+    safeSetStorage(STORAGE_KEY, updated);
+  } catch (err) {
+    console.error('[savePrescription] Unexpected error:', err);
   }
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
 }
 
 /**
@@ -144,23 +188,26 @@ export function getAlternativeComparison(
   const allBrands = getAllBrandMedicines();
   const allGenerics = getAllGenericDrugs();
 
+  const gName = (genericNameOrId || '').toLowerCase().trim();
+  const bName = (prescribedBrandName || '').toLowerCase().trim();
+
   // Find Generic
   const generic = allGenerics.find(
     (g) =>
       g.id === genericNameOrId ||
-      g.genericName.toLowerCase() === genericNameOrId.toLowerCase() ||
-      genericNameOrId.toLowerCase().includes(g.genericName.toLowerCase())
+      (g.genericName || '').toLowerCase() === gName ||
+      (gName.length > 2 && gName.includes((g.genericName || '').toLowerCase()))
   );
 
   // Find Prescribed Brand
   let prescribed = allBrands.find(
-    (b) => b.brandName.toLowerCase() === prescribedBrandName.toLowerCase()
+    (b) => (b.brandName || '').toLowerCase() === bName
   );
 
   if (!prescribed && generic) {
     prescribed = allBrands.find((b) => b.genericId === generic.id) || {
       id: `temp-${Date.now()}`,
-      brandName: prescribedBrandName,
+      brandName: prescribedBrandName || 'Prescribed Drug',
       strength: 'Standard',
       form: 'Tablet',
       manufacturer: 'Prescribed Pharma',
@@ -190,7 +237,7 @@ export function getAlternativeComparison(
       ...b,
       savingsPerUnit: Math.round(savingsPerUnit * 100) / 100,
       savingsPercentage,
-      isPrescribedBrand: b.brandName.toLowerCase() === prescribed.brandName.toLowerCase(),
+      isPrescribedBrand: (b.brandName || '').toLowerCase() === (prescribed?.brandName || '').toLowerCase(),
       isLowestPrice: b.unitPrice === lowestPrice,
     };
   });
@@ -227,23 +274,22 @@ export function calculatePrescriptionSavings(
   let totalPrescribedCost = 0;
   let totalOptimalGenericCost = 0;
 
-  const itemsComparison = prescription.parsedItems.map((item) => {
+  const itemsComparison = (prescription.parsedItems || []).map((item) => {
     const dailyDoseUnits = parseDailyDoseCount(item.dosageSchedule);
     const durationDays = overrideDurationDays || parseDurationDays(item.duration);
     const totalUnits = dailyDoseUnits * durationDays;
 
+    const itemBrand = (item.matchedBrand || '').toLowerCase().trim();
+    const itemGeneric = (item.matchedGeneric || '').toLowerCase().trim();
+
     // Find prescribed brand
     const prescribedBrand =
-      allBrands.find(
-        (b) => b.brandName.toLowerCase() === item.matchedBrand.toLowerCase()
-      ) ||
-      allBrands.find((b) =>
-        item.matchedBrand.toLowerCase().includes(b.brandName.toLowerCase())
-      );
+      allBrands.find((b) => (b.brandName || '').toLowerCase() === itemBrand) ||
+      allBrands.find((b) => itemBrand.length > 2 && itemBrand.includes((b.brandName || '').toLowerCase()));
 
     const generic = allGenerics.find(
       (g) =>
-        g.genericName.toLowerCase() === item.matchedGeneric.toLowerCase() ||
+        (g.genericName || '').toLowerCase() === itemGeneric ||
         (prescribedBrand && prescribedBrand.genericId === g.id)
     );
 

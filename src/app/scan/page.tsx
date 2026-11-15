@@ -3,7 +3,8 @@
 import React from 'react';
 import { useTranslation } from '@/lib/i18n/context';
 import { ImageUploader } from '@/components/scan/ImageUploader';
-import { Scan, Sparkles } from 'lucide-react';
+import { ErrorBoundary } from '@/components/common/ErrorBoundary';
+import { Scan } from 'lucide-react';
 
 export default function ScanPage() {
   const { t } = useTranslation();
@@ -26,8 +27,10 @@ export default function ScanPage() {
         </p>
       </div>
 
-      {/* Image Uploader & Preprocessor Studio */}
-      <ImageUploader />
+      {/* Image Uploader & Preprocessor Studio wrapped in ErrorBoundary */}
+      <ErrorBoundary fallbackTitle="Scanner Studio Recovery">
+        <ImageUploader />
+      </ErrorBoundary>
 
     </div>
   );

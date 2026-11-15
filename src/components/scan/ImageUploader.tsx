@@ -35,23 +35,86 @@ export function ImageUploader() {
   const [isProcessingOcr, setIsProcessingOcr] = useState(false);
   const [ocrStep, setOcrStep] = useState<number>(0);
 
+  const [scanError, setScanError] = useState<string | null>(null);
   const [editorOpen, setEditorOpen] = useState(false);
   const [cameraOpen, setCameraOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  // Handle File Selection
+  // Downscale and compress image to avoid hitting Vercel payload limits and localStorage quotas
+  const downscaleImageFile = async (file: File, maxDim = 1600, quality = 0.82): Promise<string> => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const dataUrl = e.target?.result as string;
+        const img = new Image();
+        img.onload = () => {
+          const w = img.naturalWidth || img.width;
+          const h = img.naturalHeight || img.height;
+          if (w <= maxDim && h <= maxDim && file.size < 600000) {
+            resolve(dataUrl);
+            return;
+          }
+          let targetW = w;
+          let targetH = h;
+          if (w > h) {
+            if (w > maxDim) {
+              targetW = maxDim;
+              targetH = Math.round((h * maxDim) / w);
+            }
+          } else {
+            if (h > maxDim) {
+              targetH = maxDim;
+              targetW = Math.round((w * maxDim) / h);
+            }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = targetW;
+          canvas.height = targetH;
+          const ctx = canvas.getContext('2d');
+          if (!ctx) {
+            resolve(dataUrl);
+            return;
+          }
+          ctx.drawImage(img, 0, 0, targetW, targetH);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        };
+        img.onerror = () => resolve(dataUrl);
+        img.src = dataUrl;
+      };
+      reader.onerror = () => resolve('');
+      reader.readAsDataURL(file);
+    });
+  };
+
+  // Convert base64 data URL to Blob directly without network fetch
+  const dataURLtoBlob = (dataurl: string): Blob => {
+    try {
+      const arr = dataurl.split(',');
+      const mime = arr[0].match(/:(.*?);/)?.[1] || 'image/jpeg';
+      const bstr = atob(arr[1]);
+      let n = bstr.length;
+      const u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      return new Blob([u8arr], { type: mime });
+    } catch {
+      return new Blob([], { type: 'image/jpeg' });
+    }
+  };
+
+  // Handle File Selection with auto-compression
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = async (event) => {
-      const dataUrl = event.target?.result as string;
-      setSelectedImage(dataUrl);
+    setScanError(null);
+    const optimizedDataUrl = await downscaleImageFile(file);
+    if (optimizedDataUrl) {
+      setSelectedImage(optimizedDataUrl);
       setSelectedPresetId('');
-      await runQualityCheck(dataUrl);
-    };
-    reader.readAsDataURL(file);
+      await runQualityCheck(optimizedDataUrl);
+    }
   };
 
   const runQualityCheck = async (imgSource: string) => {
@@ -70,6 +133,7 @@ export function ImageUploader() {
   const handleSelectPreset = async (presetId: string) => {
     const preset = SAMPLE_PRESETS.find((p) => p.id === presetId);
     if (!preset) return;
+    setScanError(null);
     setSelectedPresetId(presetId);
     setSelectedImage(preset.imageUrl);
     await runQualityCheck(preset.imageUrl);
@@ -79,19 +143,13 @@ export function ImageUploader() {
   const handleStartOcr = async () => {
     if (!selectedImage) return;
 
+    setScanError(null);
     setIsProcessingOcr(true);
     setOcrStep(1);
 
-    // Step 1: Preprocessing animation
-    await new Promise((resolve) => setTimeout(resolve, 600));
+    // Step 1: Preprocessing
+    await new Promise((resolve) => setTimeout(resolve, 400));
     setOcrStep(2);
-
-    // Step 2: Clinical NLP Extraction
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    setOcrStep(3);
-
-    // Step 3: Fuzzy Database Matching
-    await new Promise((resolve) => setTimeout(resolve, 600));
 
     const database = getAllBrandMedicines();
     const newId = `rx-${Date.now()}`;
@@ -99,7 +157,7 @@ export function ImageUploader() {
     // Check if preset selected
     const activePreset = SAMPLE_PRESETS.find((p) => p.id === selectedPresetId);
 
-    let parsedItems;
+    let parsedItems: any[] = [];
     if (activePreset) {
       parsedItems = activePreset.medicines.map((m, idx) => ({
         id: `item-${idx + 1}-${Date.now()}`,
@@ -118,9 +176,9 @@ export function ImageUploader() {
         boundingBox: m.box,
       }));
     } else {
-      // Real OCR via /api/scan with Gemini Vision & microservice fallback
+      // Step 2: Clinical Vision Extraction
       try {
-        const blob = await fetch(selectedImage).then((r) => r.blob());
+        const blob = dataURLtoBlob(selectedImage);
         const formData = new FormData();
         formData.append('image', blob, 'prescription.jpg');
 
@@ -129,26 +187,28 @@ export function ImageUploader() {
           body: formData,
         });
 
-        if (scanRes.ok) {
-          const scanData = await scanRes.json();
-          if (Array.isArray(scanData.parsedMedicines) && scanData.parsedMedicines.length > 0) {
-            parsedItems = scanData.parsedMedicines;
-          }
-        }
-      } catch (err) {
-        console.error('Scan API call failed, falling back:', err);
-      }
+        const scanData = await scanRes.json().catch(() => ({}));
 
-      // Fallback parser if OCR returns empty
-      if (!parsedItems || parsedItems.length === 0) {
-        const defaultSampleLines = [
-          'Tab Napa Extra (500/65mg) 1+0+1 7 days pc',
-          'Cap Sec1o 20mg 1-0-1 14 days ac',
-          'Tab Moxac1av 625 1+0+1 5 days',
-        ];
-        parsedItems = parsePrescriptionText(defaultSampleLines, database);
+        if (scanRes.ok && Array.isArray(scanData.parsedMedicines) && scanData.parsedMedicines.length > 0) {
+          parsedItems = scanData.parsedMedicines;
+        } else {
+          const errMsg =
+            scanData.error ||
+            'Could not clearly recognize medicines from this prescription. Please use the Crop tool to frame the medicine area and retry.';
+          setScanError(errMsg);
+          setIsProcessingOcr(false);
+          return;
+        }
+      } catch (err: any) {
+        console.error('Scan API call failed:', err);
+        setScanError('Connection to OCR engine failed. Please verify your internet connection and retry.');
+        setIsProcessingOcr(false);
+        return;
       }
     }
+
+    setOcrStep(3);
+    await new Promise((resolve) => setTimeout(resolve, 300));
 
     const newPrescription = {
       id: newId,
@@ -363,6 +423,38 @@ export function ImageUploader() {
             </div>
 
           </div>
+
+          {/* Scan Error Banner */}
+          {scanError && (
+            <div className="p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-200 text-xs space-y-2 animate-in fade-in">
+              <div className="flex items-start gap-2">
+                <AlertTriangle className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
+                <div className="space-y-1">
+                  <p className="font-bold text-xs">{scanError}</p>
+                  <p className="text-[11px] text-rose-600 dark:text-rose-300">
+                    Doctor handwriting is often easier for the AI to recognize when you crop out extra headers and background.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 pt-1">
+                <button
+                  type="button"
+                  onClick={() => setEditorOpen(true)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white transition-colors"
+                >
+                  <Crop className="w-3.5 h-3.5" />
+                  <span>Crop Medicine Area</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setScanError(null)}
+                  className="px-3 py-1.5 rounded-lg text-xs font-medium text-rose-700 dark:text-rose-300 hover:bg-rose-100 dark:hover:bg-rose-900/40 transition-colors"
+                >
+                  Dismiss
+                </button>
+              </div>
+            </div>
+          )}
 
           {/* Start OCR Button & Status */}
           <div className="p-5 rounded-2xl bg-gradient-to-tr from-brand-900/90 to-slate-900 text-white shadow-md space-y-4">
