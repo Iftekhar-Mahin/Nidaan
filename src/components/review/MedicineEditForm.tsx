@@ -211,7 +211,7 @@ export function MedicineEditForm({
                     type="text"
                     value={item.matchedGeneric}
                     onChange={(e) => handleFieldChange(idx, 'matchedGeneric', e.target.value)}
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-750 text-brand-700 dark:text-brand-300 font-semibold focus:outline-hidden"
+                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-brand-700 dark:text-brand-300 font-semibold focus:outline-hidden"
                   />
                 </div>
 

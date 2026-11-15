@@ -45,6 +45,17 @@ export async function POST(request: Request) {
         });
       }
 
+      // Security Precaution: Prevent unauthorized administrative privilege escalation
+      let assignedRole: 'PATIENT' | 'PHARMACIST' | 'ADMIN' = 'PATIENT';
+      if (role === 'ADMIN') {
+        return NextResponse.json(
+          { error: 'Administrative accounts cannot be self-registered. Please contact the system administrator.' },
+          { status: 403 }
+        );
+      } else if (role === 'PHARMACIST') {
+        assignedRole = 'PHARMACIST';
+      }
+
       const passwordHash = password ? hashPassword(password) : null;
       const newUser = await prisma.user.create({
         data: {
@@ -52,7 +63,7 @@ export async function POST(request: Request) {
           email: userEmail,
           phone: userPhone,
           passwordHash,
-          role: role || 'PATIENT',
+          role: assignedRole,
           language: 'bn',
         },
       });

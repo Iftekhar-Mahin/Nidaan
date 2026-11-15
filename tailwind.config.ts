@@ -44,7 +44,10 @@ export default {
           bgDark: "#0F172A",
           borderLight: "#E2E8F0",
           borderDark: "#334155",
-        }
+        },
+        slate: {
+          750: "#1e293b",
+        },
       },
       fontFamily: {
         sans: ["var(--font-inter)", "var(--font-hind-siliguri)", "sans-serif"],
