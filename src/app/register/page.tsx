@@ -105,7 +105,7 @@ export default function RegisterPage() {
                 : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
             }`}
           >
-            {t('auth.patient')} / General User
+            {t('auth.patient')}
           </button>
           <button
             type="button"
